@@ -32,32 +32,30 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 double changeY = Math.sin(Math.toRadians(player.getRotation()));
                 player.setX(player.getX() + changeX);
                 player.setY(player.getY() + changeY);
-
             }
 
             if(gameData.getKeys().isPressed(GameKeys.SPACE)){
-                ArrayList<BulletSPI> bulletSPI = (ArrayList<BulletSPI>) getBulletSPIs();
-                Entity bullet = bulletSPI.get(0).createBullet(player,gameData);
-                world.addEntity(bullet);
+                getBulletSPIs().stream().findFirst().ifPresent(
+                        spi -> world.addEntity(spi.createBullet(player, gameData))
+                );
             }
+            validatePlayerPosition(gameData,player);
+        }
+    }
+    private void validatePlayerPosition(GameData gameData, Entity player){
+        if (player.getX() < 0) {
+            player.setX(1);
+        }
+        if (player.getX() > gameData.getDisplayWidth()) {
+            player.setX(gameData.getDisplayWidth()-1);
+        }
 
-            if (player.getX() < 0) {
-                player.setX(1);
-            }
+        if (player.getY() < 0) {
+            player.setY(1);
+        }
 
-            if (player.getX() > gameData.getDisplayWidth()) {
-                player.setX(gameData.getDisplayWidth()-1);
-            }
-
-            if (player.getY() < 0) {
-                player.setY(1);
-            }
-
-            if (player.getY() > gameData.getDisplayHeight()) {
-                player.setY(gameData.getDisplayHeight()-1);
-            }
-            
-                                        
+        if (player.getY() > gameData.getDisplayHeight()) {
+            player.setY(gameData.getDisplayHeight()-1);
         }
     }
 
