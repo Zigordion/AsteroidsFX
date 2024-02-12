@@ -11,7 +11,7 @@ public class Entity implements Serializable {
     private double x;
     private double y;
     private double rotation;
-            
+    private boolean isActive;
 
     public String getID() {
         return ID.toString();
@@ -51,6 +51,13 @@ public class Entity implements Serializable {
     public double getRotation() {
         return rotation;
     }
-        
 
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 }
