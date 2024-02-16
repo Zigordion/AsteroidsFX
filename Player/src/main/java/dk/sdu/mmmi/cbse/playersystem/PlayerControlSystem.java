@@ -20,7 +20,6 @@ public class PlayerControlSystem implements IEntityProcessingService {
 
     @Override
     public void process(double deltaTime, GameData gameData, World world) {
-        System.out.println(deltaTime);
         for (Entity player : world.getEntities(Player.class)) {
             if (gameData.getKeys().isDown(GameKeys.LEFT)) {
                 player.setRotation(player.getRotation() - rotationSpeed*deltaTime);
