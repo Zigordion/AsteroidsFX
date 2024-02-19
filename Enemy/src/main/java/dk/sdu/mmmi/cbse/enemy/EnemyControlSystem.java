@@ -1,4 +1,4 @@
-package dk.sdu.mmmi.cbse;
+package dk.sdu.mmmi.cbse.enemy;
 
 import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
@@ -24,7 +24,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
     @Override
     public void process(double deltaTime, GameData gameData, World world) {
         timer -= 1; //should include delta time
-        shootTimer -= random.nextDouble();
+        shootTimer -= random.nextDouble();//should include delta time+
         if (timer <= 0) {
             Entity enemy = createEnemy(gameData);
             world.addEntity(enemy);

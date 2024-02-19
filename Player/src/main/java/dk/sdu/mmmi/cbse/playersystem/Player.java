@@ -8,4 +8,8 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
  */
 public class Player extends Entity {
 
+    @Override
+    public void onHit() {
+        //setActive(false); //display game over screen
+    }
 }

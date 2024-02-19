@@ -3,7 +3,7 @@ package dk.sdu.mmmi.cbse.common.data;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class Entity implements Serializable {
+public abstract class Entity implements Serializable {
 
     private final UUID ID = UUID.randomUUID();
     
@@ -12,6 +12,7 @@ public class Entity implements Serializable {
     private double y;
     private double rotation;
     private boolean isActive;
+    public abstract void onHit();
 
     public String getID() {
         return ID.toString();
