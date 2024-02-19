@@ -1,5 +1,6 @@
 package dk.sdu.mmmi.cbse.playersystem;
 
+import dk.sdu.mmmi.cbse.common.bullet.Bullet;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 
 /**
@@ -9,7 +10,13 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 public class Player extends Entity {
 
     @Override
-    public void onHit() {
-        //setActive(false); //display game over screen
+    public void onHit(Entity other) {
+        if(other instanceof Bullet bullet){
+            if(bullet.getShooter()!=this){
+                setActive(false);
+            }
+        }else {
+            setActive(false); //display game over screen
+        }
     }
 }

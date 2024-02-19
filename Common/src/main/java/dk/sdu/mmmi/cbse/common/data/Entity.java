@@ -12,7 +12,7 @@ public abstract class Entity implements Serializable {
     private double y;
     private double rotation;
     private boolean isActive;
-    public abstract void onHit();
+    public abstract void onHit(Entity other);
 
     public String getID() {
         return ID.toString();

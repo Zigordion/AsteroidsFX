@@ -1,35 +1,40 @@
 package dk.sdu.mmmi.cbse.asteroid;
+import dk.sdu.mmmi.cbse.common.bullet.Bullet;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 
 public class Asteroid extends Entity  {
     private double xDirection;
-    private double size;
+    private final double size;
+    private boolean isHit = false;
     private final IAsteroidCreator asteroidCreator;
     public Asteroid(double size, IAsteroidCreator asteroidCreator){
         this.size = size;
         this.asteroidCreator = asteroidCreator;
     }
 
-    public double getyDirection() {
+    public double getYDirection() {
         return yDirection;
     }
 
-    public void setyDirection(double yDirection) {
+    public void setYDirection(double yDirection) {
         this.yDirection = yDirection;
     }
 
     private double yDirection;
 
-    public double getxDirection() {
+    public double getXDirection() {
         return xDirection;
     }
 
-    public void setxDirection(double xDirection) {
+    public void setXDirection(double xDirection) {
         this.xDirection = xDirection;
     }
 
     @Override
-    public void onHit() {
+    public void onHit(Entity other) {
+        if(!(other instanceof Bullet)){
+            return;
+        }
         if(size/2.0>1){
             asteroidCreator.createSmallerAsteroid(this);
         }
@@ -40,4 +45,11 @@ public class Asteroid extends Entity  {
         return size;
     }
 
+    public boolean isHit() {
+        return isHit;
+    }
+
+    public void setHit(boolean hit) {
+        this.isHit = hit;
+    }
 }

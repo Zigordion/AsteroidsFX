@@ -11,7 +11,8 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
     private static double timer;
     private final double maxTimer = 200;
     private final double speed = 0.6;
-    private final int asteroidsPrDestruction = 2;
+    private final double rotationSpeed = 1;
+    private final int asteroidsPrDestruction = 3;
     private final double newSizeModifier = 0.5;
     private Random random = new Random();
     private World world;
@@ -26,8 +27,9 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
         }
         for (Entity entity : world.getEntities(Asteroid.class)) {
             if(entity instanceof Asteroid asteroid){
-                asteroid.setX(asteroid.getX()+asteroid.getxDirection()*deltaTime*speed);
-                asteroid.setY(asteroid.getY()+asteroid.getyDirection()*deltaTime*speed);
+                asteroid.setX(asteroid.getX()+asteroid.getXDirection()*deltaTime*speed);
+                asteroid.setY(asteroid.getY()+asteroid.getYDirection()*deltaTime*speed);
+                asteroid.setRotation(asteroid.getRotation()+rotationSpeed*deltaTime);
                 if (asteroid.getY() >= gameData.getDisplayHeight() || asteroid.getY() <= 0) {
                     asteroid.setActive(false);
                 }
@@ -70,14 +72,18 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
         double magnitude = Math.sqrt(xDirection*xDirection+yDirection*yDirection);
         double normalizedX = xDirection/magnitude;
         double normalizedY = yDirection/magnitude;
-        asteroid.setxDirection(normalizedX);
-        asteroid.setyDirection(normalizedY);
+        asteroid.setXDirection(normalizedX);
+        asteroid.setYDirection(normalizedY);
 
         return asteroid;
     }
 
     @Override
     public void createSmallerAsteroid(Asteroid prevAsteroid) {
+        if(prevAsteroid.isHit()){
+            return;
+        }
+        prevAsteroid.setHit(true);//prevents multiple calls to the same asteroid
         double[] polygons = prevAsteroid.getPolygonCoordinates();
         double[] newPolygons = new double[polygons.length];
 
@@ -91,8 +97,8 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
             asteroid.setPolygonCoordinates(newPolygons);
             asteroid.setX(prevAsteroid.getX());
             asteroid.setY(prevAsteroid.getY());
-            asteroid.setyDirection(random.nextDouble(-1,1.001));
-            asteroid.setxDirection(random.nextDouble(-1,1.001));
+            asteroid.setYDirection(random.nextDouble(-1,1.001));
+            asteroid.setXDirection(random.nextDouble(-1,1.001));
             asteroid.setActive(true);
             //add to world somehow
             world.addEntity(asteroid);
