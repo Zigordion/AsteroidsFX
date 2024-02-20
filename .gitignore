@@ -30,3 +30,5 @@ replay_pid*
 /Bullet/target/
 /CommonBullet/target/
 /.idea/
+Asteroid/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+Enemy/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
