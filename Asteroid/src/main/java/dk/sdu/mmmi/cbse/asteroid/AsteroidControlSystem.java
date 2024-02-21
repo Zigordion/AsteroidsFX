@@ -13,7 +13,7 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
     private final double speed = 0.6;
     private final double rotationSpeed = 1;
     private final int asteroidsPrDestruction = 3;
-    private final double newSizeModifier = 0.5;
+    private final double newSizeModifier = 0.7;
     private Random random = new Random();
     private World world;
     @Override
@@ -27,21 +27,21 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
         }
         for (Entity entity : world.getEntities(Asteroid.class)) {
             if(entity instanceof Asteroid asteroid){
-                asteroid.setX(asteroid.getX()+asteroid.getXDirection()*deltaTime*speed);
-                asteroid.setY(asteroid.getY()+asteroid.getYDirection()*deltaTime*speed);
+                asteroid.setX((asteroid.getX()+asteroid.getXDirection()*deltaTime*speed)% gameData.getDisplayWidth());
+                asteroid.setY((asteroid.getY()+asteroid.getYDirection()*deltaTime*speed)% gameData.getDisplayHeight());
                 asteroid.setRotation(asteroid.getRotation()+rotationSpeed*deltaTime);
-                if (asteroid.getY() >= gameData.getDisplayHeight() || asteroid.getY() <= 0) {
-                    asteroid.setActive(false);
+                if (asteroid.getY() < 0) {
+                    asteroid.setY(gameData.getDisplayHeight()-1);
                 }
-                if (asteroid.getX() >= gameData.getDisplayWidth() || asteroid.getX() <= 0) {
-                    asteroid.setActive(false);
+                if (asteroid.getX() < 0) {
+                    asteroid.setX(gameData.getDisplayWidth()-1);
                 }
             }
         }
     }
 
     private Entity createNewAsteroid(GameData gameData){
-        Asteroid asteroid = new Asteroid(random.nextDouble(3,6), this);
+        Asteroid asteroid = new Asteroid(random.nextDouble(4,7), this);
         asteroid.setPolygonCoordinates(
                 -8,0,
                 -6,3,
@@ -93,7 +93,7 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
 
         for (int i = 0; i < asteroidsPrDestruction; i++) {
             //Gets called twice for some reason
-            Asteroid asteroid = new Asteroid(prevAsteroid.getSize()* newSizeModifier,this);
+            Asteroid asteroid = new Asteroid(prevAsteroid.getSize() * newSizeModifier,this);
             asteroid.setPolygonCoordinates(newPolygons);
             asteroid.setX(prevAsteroid.getX());
             asteroid.setY(prevAsteroid.getY());

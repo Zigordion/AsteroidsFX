@@ -35,7 +35,7 @@ public class Asteroid extends Entity  {
         if(!(other instanceof Bullet)){
             return;
         }
-        if(size/2.0>1){
+        if(size/2.0>1.5){
             asteroidCreator.createSmallerAsteroid(this);
         }
         setActive(false);

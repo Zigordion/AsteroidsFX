@@ -5,7 +5,7 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 
-public class CollisionController implements IPostEntityProcessingService {
+public class CircularCollisionController implements IPostEntityProcessingService {
     @Override
     public void postProcess(GameData gameData, World world) {
         //Get all entities.
@@ -23,9 +23,7 @@ public class CollisionController implements IPostEntityProcessingService {
             double entityRadius = 0;
             for (double coord : coords) {
                 double tmpRadius = Math.abs(coord);
-                if(entityRadius<tmpRadius){
-                    entityRadius = tmpRadius;
-                }
+                entityRadius = Math.max(tmpRadius,entityRadius);
             }
             for (Entity other : world.getEntities() ) {
                 if(entity.getClass() != other.getClass()){
@@ -34,9 +32,7 @@ public class CollisionController implements IPostEntityProcessingService {
                     double otherRadius = 0;
                     for (double coord : otherCoords) {
                         double tmpRadius = Math.abs(coord);
-                        if(otherRadius<tmpRadius){
-                            otherRadius = tmpRadius;
-                        }
+                        otherRadius = Math.max(tmpRadius,otherRadius);
                     }
                     double deltaX = entity.getX()-other.getX();
                     double deltaY = entity.getY()-other.getY();

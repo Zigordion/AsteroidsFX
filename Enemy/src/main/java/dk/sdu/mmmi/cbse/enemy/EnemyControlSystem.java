@@ -33,14 +33,14 @@ public class EnemyControlSystem implements IEntityProcessingService {
         for (Entity enemy : world.getEntities(Enemy.class)) {
             double changeX = Math.cos(Math.toRadians(enemy.getRotation()));
             double changeY = Math.sin(Math.toRadians(enemy.getRotation()));
-            enemy.setX(enemy.getX() + changeX * deltaTime * moveSpeed);
-            enemy.setY(enemy.getY() + changeY * deltaTime * moveSpeed);
+            enemy.setX((enemy.getX() + changeX * deltaTime * moveSpeed)% gameData.getDisplayWidth());
+            enemy.setY((enemy.getY() + changeY * deltaTime * moveSpeed)% gameData.getDisplayHeight());
             enemy.setRotation(enemy.getRotation() + random.nextDouble(-rotationSpeed, rotationSpeed) * deltaTime);
-            if (enemy.getY() >= gameData.getDisplayHeight() || enemy.getY() <= 0) {
-                enemy.setActive(false);
+            if (enemy.getY() <= 0) {
+                enemy.setY(gameData.getDisplayHeight()-1);
             }
-            if (enemy.getX() >= gameData.getDisplayWidth() || enemy.getX() <= 0) {
-                enemy.setActive(false);
+            if (enemy.getX() <= 0) {
+                enemy.setX(gameData.getDisplayWidth()-1);
             }
             if (shootTimer <= 0) {
                 getBulletSPIs().stream().findFirst().ifPresent(
