@@ -18,13 +18,13 @@
         <module>CommonBullet</module>
         <module>Enemy</module>
         <module>Asteroid</module>
-        <module>Collision</module>
+        <module>CircularCollision</module>
     </modules>
     <properties>
         <java>java</java>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>        
-        <maven.compiler.source>1.9</maven.compiler.source>
-        <maven.compiler.target>1.9</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
     
     <dependencyManagement>
