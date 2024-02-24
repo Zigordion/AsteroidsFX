@@ -36,7 +36,11 @@ public class PlayerControlSystem implements IEntityProcessingService {
 
             if (gameData.getKeys().isPressed(GameKeys.SPACE)) { //doesn't get called if up and left is clicked
                 getBulletSPIs().stream().findFirst().ifPresent(
-                        spi -> world.addEntity(spi.createBullet(player, gameData))
+                        spi -> {
+                            Entity bullet = spi.createBullet(player, gameData);
+                            bullet.setRGB(255,255,255);
+                            world.addEntity(bullet);
+                        }
                 );
             }
             validatePlayerPosition(gameData, player);

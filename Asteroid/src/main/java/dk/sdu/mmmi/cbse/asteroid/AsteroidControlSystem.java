@@ -22,6 +22,7 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
         this.world = world;
         if (timer <= 0) {
             Entity asteroid = createNewAsteroid(gameData);
+
             world.addEntity(asteroid);
             timer = maxTimer;
         }
@@ -42,6 +43,7 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
 
     private Entity createNewAsteroid(GameData gameData){
         Asteroid asteroid = new Asteroid(random.nextDouble(4,7), this);
+        asteroid.setRGB(140,140,140);
         asteroid.setPolygonCoordinates(
                 -8,0,
                 -6,3,
@@ -94,6 +96,7 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
         for (int i = 0; i < asteroidsPrDestruction; i++) {
             //Gets called twice for some reason
             Asteroid asteroid = new Asteroid(prevAsteroid.getSize() * newSizeModifier,this);
+            asteroid.setRGB(prevAsteroid.getRedValue(),prevAsteroid.getGreenValue(),prevAsteroid.getBlueValue());
             asteroid.setPolygonCoordinates(newPolygons);
             asteroid.setX(prevAsteroid.getX());
             asteroid.setY(prevAsteroid.getY());

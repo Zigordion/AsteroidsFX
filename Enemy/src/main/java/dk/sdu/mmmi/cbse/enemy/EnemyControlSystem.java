@@ -44,7 +44,11 @@ public class EnemyControlSystem implements IEntityProcessingService {
             }
             if (shootTimer <= 0) {
                 getBulletSPIs().stream().findFirst().ifPresent(
-                        spi -> world.addEntity(spi.createBullet(enemy, gameData))
+                        spi -> {
+                            Entity bullet = spi.createBullet(enemy, gameData);
+                            bullet.setRGB(204,0,0);
+                            world.addEntity(bullet);
+                        }
                 );
             }
         }
@@ -55,6 +59,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
     public Entity createEnemy(GameData gameData) {
         Entity enemy = new Enemy();
+        enemy.setRGB(128,0,0);
         enemy.setPolygonCoordinates(-5, -5, 10, 5, -5, 5, 10, -5);
         enemy.setX(random.nextDouble(5, gameData.getDisplayWidth() - 5));
         enemy.setY(random.nextDouble(5, gameData.getDisplayHeight() - 5));

@@ -10,6 +10,9 @@ public abstract class Entity implements Serializable {
     private double[] polygonCoordinates;
     private double x;
     private double y;
+    private int redValue;
+    private int greenValue;
+    private int blueValue;
     private double rotation;
     private boolean isActive;
     public abstract void onHit(Entity other);
@@ -26,7 +29,12 @@ public abstract class Entity implements Serializable {
     public double[] getPolygonCoordinates() {
         return polygonCoordinates;
     }
-       
+
+    public void setRGB(int redValue, int greenValue, int blueValue){
+        this.redValue = redValue;
+        this.greenValue = greenValue;
+        this.blueValue = blueValue;
+    }
 
     public void setX(double x) {
         this.x =x;
@@ -60,5 +68,17 @@ public abstract class Entity implements Serializable {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public int getRedValue() {
+        return redValue;
+    }
+
+    public int getGreenValue() {
+        return greenValue;
+    }
+
+    public int getBlueValue() {
+        return blueValue;
     }
 }
