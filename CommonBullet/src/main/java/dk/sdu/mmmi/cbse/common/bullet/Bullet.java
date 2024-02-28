@@ -13,6 +13,7 @@ public class Bullet extends Entity {
     }
     @Override
     public void onHit(Entity other) {
+        super.onHit(other);
         if(other == shooter){
             return;
         }

@@ -11,6 +11,7 @@ public class Player extends Entity {
 
     @Override
     public void onHit(Entity other) {
+        super.onHit(other);
         if(other instanceof Bullet bullet){
             if(bullet.getShooter()!=this){
                 setActive(false);

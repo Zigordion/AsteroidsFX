@@ -1,6 +1,7 @@
 package dk.sdu.mmmi.cbse.common.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.UUID;
 import java.util.concurrent.RecursiveAction;
@@ -18,9 +19,19 @@ public abstract class Entity implements Serializable {
     private int blueValue;
     private double rotation;
     private boolean isActive;
+    private ArrayList<OnHitEvent> onHitEvents = new ArrayList<>();
 
-    public abstract void onHit(Entity other);
-
+    public void onHit(Entity other){
+        for (OnHitEvent onHitEvent : onHitEvents) {
+            onHitEvent.notifyHit();
+        }
+    }
+    public void addOnHitListener(OnHitEvent onHitEvent){
+        if(onHitEvents.contains(onHitEvent)){
+            return;
+        }
+        onHitEvents.add(onHitEvent);
+    }
     public String getID() {
         return ID.toString();
     }

@@ -1,6 +1,5 @@
 package dk.sdu.mmmi.cbse.common.data;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +17,12 @@ public class GameUi {
         return uiTextElements.values();
     }
     public void addUiTextElement(UiTextElement uiTextElement){
+        if(uiTextElements.containsKey(uiTextElement.getID())){
+            if(uiTextElements.get(uiTextElement.getID()).getText().equals(uiTextElement.getText())){
+                return;
+            }
+            uiTextElements.remove(uiTextElement.getID());
+        }
         uiTextElements.put(uiTextElement.getID(),uiTextElement);
     }
 }

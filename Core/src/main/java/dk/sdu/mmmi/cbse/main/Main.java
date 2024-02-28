@@ -34,15 +34,16 @@ public class Main extends Application {
     private final Map<UiTextElement,Text> elementTextMap = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
 
+    private Collection<? extends IUIProcessingService> iuiProcessingServiceCollection;
+    private Collection<? extends  IEntityProcessingService> iEntityProcessingServices;
+    private Collection<? extends  IPostEntityProcessingService> iPostEntityProcessingServices;
     public static void main(String[] args) {
         launch(Main.class);
     }
 
     @Override
     public void start(Stage window) throws Exception {
-        //Score part should be extracted to separate module
-        UiTextElement score = new UiTextElement("Destroyed asteroids: ",10,20,255,0,255);
-        gameUi.addUiTextElement(score);
+
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         BackgroundFill backgroundFill = new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY);
         Background background = new Background(backgroundFill);
@@ -60,7 +61,9 @@ public class Main extends Application {
         window.setScene(scene);
         window.setTitle("ASTEROIDS");
         window.show();
-
+        iuiProcessingServiceCollection = getIUIProcessingServices();
+        iPostEntityProcessingServices = getPostEntityProcessingServices();
+        iEntityProcessingServices = getEntityProcessingServices();
     }
 
     private Scene initiateScene() {
@@ -115,14 +118,17 @@ public class Main extends Application {
     private void update(double deltaTime) {
 
         // Update
-        for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
+
+        //Getters should only be called once, as it creates new instances of the service, resulting in variables being reset.
+
+        for (IEntityProcessingService entityProcessorService : iEntityProcessingServices) {
             entityProcessorService.process(deltaTime, gameData, world);
         }
-        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+        for (IPostEntityProcessingService postEntityProcessorService : iPostEntityProcessingServices) {
             postEntityProcessorService.postProcess(gameData, world);
         }
-        for (IUIProcessingService uiProcessingService : getIUIProcessingServices()) {
-            uiProcessingService.process(gameData, gameUi);
+        for (IUIProcessingService uiProcessingService : iuiProcessingServiceCollection) {
+            uiProcessingService.processUI(gameData, gameUi);
         }
 
     }
