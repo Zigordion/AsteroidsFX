@@ -18,9 +18,9 @@ public class GameUi {
     }
     public void addUiTextElement(UiTextElement uiTextElement){
         if(uiTextElements.containsKey(uiTextElement.getID())){
-            if(uiTextElements.get(uiTextElement.getID()).getText().equals(uiTextElement.getText())){
-                return;
-            }
+//            if(uiTextElements.get(uiTextElement.getID()).getText().equals(uiTextElement.getText())){
+//                return;
+//            }
             uiTextElements.remove(uiTextElement.getID());
         }
         uiTextElements.put(uiTextElement.getID(),uiTextElement);

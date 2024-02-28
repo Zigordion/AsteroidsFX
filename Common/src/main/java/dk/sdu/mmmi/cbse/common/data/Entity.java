@@ -2,10 +2,7 @@ package dk.sdu.mmmi.cbse.common.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.UUID;
-import java.util.concurrent.RecursiveAction;
-import java.util.function.Consumer;
 
 public abstract class Entity implements Serializable {
 
@@ -19,18 +16,18 @@ public abstract class Entity implements Serializable {
     private int blueValue;
     private double rotation;
     private boolean isActive;
-    private ArrayList<OnHitEvent> onHitEvents = new ArrayList<>();
+    private ArrayList<OnHitListener> onHitListeners = new ArrayList<>();
 
     public void onHit(Entity other){
-        for (OnHitEvent onHitEvent : onHitEvents) {
-            onHitEvent.notifyHit();
+        for (OnHitListener onHitListener : onHitListeners) {
+            onHitListener.notifyHit();
         }
     }
-    public void addOnHitListener(OnHitEvent onHitEvent){
-        if(onHitEvents.contains(onHitEvent)){
+    public void addOnHitListener(OnHitListener onHitListener){
+        if(onHitListeners.contains(onHitListener)){
             return;
         }
-        onHitEvents.add(onHitEvent);
+        onHitListeners.add(onHitListener);
     }
     public String getID() {
         return ID.toString();
@@ -49,7 +46,6 @@ public abstract class Entity implements Serializable {
         this.redValue = redValue;
         this.greenValue = greenValue;
         this.blueValue = blueValue;
-
     }
 
     public void setX(double x) {

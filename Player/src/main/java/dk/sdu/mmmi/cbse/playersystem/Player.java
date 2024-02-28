@@ -11,13 +11,11 @@ public class Player extends Entity {
 
     @Override
     public void onHit(Entity other) {
-        super.onHit(other);
         if(other instanceof Bullet bullet){
-            if(bullet.getShooter()!=this){
-                setActive(false);
+            if(bullet.getShooter()==this){
+                return;
             }
-        }else {
-            setActive(false); //display game over screen
         }
+        super.onHit(other);
     }
 }

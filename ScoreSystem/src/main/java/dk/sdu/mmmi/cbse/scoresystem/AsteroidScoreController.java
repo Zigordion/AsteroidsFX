@@ -8,7 +8,7 @@ import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
 import java.util.Collection;
 
 
-public class AsteroidScoreController implements IUIProcessingService, IEntityProcessingService, OnHitEvent {
+public class AsteroidScoreController implements IUIProcessingService, IEntityProcessingService, OnHitListener {
     private static int asteroidScore;
     private UiTextElement score = new UiTextElement("" + asteroidScore,10,20,255,255,255);
 
