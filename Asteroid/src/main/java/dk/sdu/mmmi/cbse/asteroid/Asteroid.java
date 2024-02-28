@@ -5,7 +5,6 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 public class Asteroid extends Entity  {
     private double xDirection;
     private final double size;
-    private boolean isHit = false;
     private final IAsteroidCreator asteroidCreator;
     public Asteroid(double size, IAsteroidCreator asteroidCreator){
         this.size = size;
@@ -46,11 +45,5 @@ public class Asteroid extends Entity  {
         return size;
     }
 
-    public boolean isHit() {
-        return isHit;
-    }
 
-    public void setHit(boolean hit) {
-        this.isHit = hit;
-    }
 }

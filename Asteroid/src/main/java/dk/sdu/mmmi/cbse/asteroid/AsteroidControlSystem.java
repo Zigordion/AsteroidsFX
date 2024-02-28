@@ -82,10 +82,6 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
 
     @Override
     public void createSmallerAsteroid(Asteroid prevAsteroid) {
-        if(prevAsteroid.isHit()){
-            return;
-        }
-        prevAsteroid.setHit(true);//prevents multiple calls to the same asteroid
         double[] polygons = prevAsteroid.getPolygonCoordinates();
         double[] newPolygons = new double[polygons.length];
 

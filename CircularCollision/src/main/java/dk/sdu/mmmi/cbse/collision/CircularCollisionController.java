@@ -49,10 +49,6 @@ public class CircularCollisionController implements IPostEntityProcessingService
                     if(distance < entityRadius+otherRadius){
                         //collided
                         entity.onHit(other);
-                        other.onHit(entity);
-                        //Some sort of check to see which entity is stronger
-                        //eg. bullets stronger than asteroids, but asteroids
-                        //stronger than ships
                     }
                 }
             }

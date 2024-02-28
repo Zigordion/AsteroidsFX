@@ -14,6 +14,7 @@ public class AsteroidScoreController implements IUIProcessingService, IEntityPro
 
     @Override
     public void processUI(GameData gameData, GameUi gameUi) {
+        score.setText("Destroyed asteroids: " + asteroidScore);
         gameUi.addUiTextElement(score);
     }
 
