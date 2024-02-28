@@ -32,6 +32,7 @@ public class Asteroid extends Entity  {
 
     @Override
     public void onHit(Entity other) {
+
         if(!(other instanceof Bullet)){
             return;
         }

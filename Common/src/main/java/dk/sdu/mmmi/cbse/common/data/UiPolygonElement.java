@@ -1,31 +1,14 @@
 package dk.sdu.mmmi.cbse.common.data;
 
-import java.io.Serializable;
-import java.util.EventListener;
-import java.util.UUID;
-import java.util.concurrent.RecursiveAction;
-import java.util.function.Consumer;
-
-public abstract class Entity implements Serializable {
-
-    private final UUID ID = UUID.randomUUID();
-    
+public class UiPolygonElement {
+    //can be either text or polygons
+    //Should this be 2 separate classes?
     private double[] polygonCoordinates;
     private double x;
     private double y;
     private int redValue;
     private int greenValue;
     private int blueValue;
-    private double rotation;
-    private boolean isActive;
-
-    public abstract void onHit(Entity other);
-
-    public String getID() {
-        return ID.toString();
-    }
-
-
     public void setPolygonCoordinates(double... coordinates ) {
         this.polygonCoordinates = coordinates;
     }
@@ -49,30 +32,13 @@ public abstract class Entity implements Serializable {
         return x;
     }
 
-    
+
     public void setY(double y) {
         this.y = y;
     }
 
     public double getY() {
         return y;
-    }
-
-    public void setRotation(double rotation) {
-        this.rotation = rotation;
-    }
-
-    public double getRotation() {
-        return rotation;
-    }
-
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
     }
 
     public int getRedValue() {

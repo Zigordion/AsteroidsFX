@@ -1,20 +1,16 @@
 package dk.sdu.mmmi.cbse.main;
 
-import dk.sdu.mmmi.cbse.common.data.Entity;
-import dk.sdu.mmmi.cbse.common.data.GameData;
-import dk.sdu.mmmi.cbse.common.data.GameKeys;
-import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 import static java.util.stream.Collectors.toList;
+
+import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -25,7 +21,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -34,7 +29,9 @@ public class Main extends Application {
 
     private final GameData gameData = new GameData();
     private final World world = new World();
+    private final GameUi gameUi = new GameUi();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
+    private final Map<UiTextElement,Text> elementTextMap = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
 
     public static void main(String[] args) {
@@ -43,12 +40,30 @@ public class Main extends Application {
 
     @Override
     public void start(Stage window) throws Exception {
-        Text text = new Text(10, 20, "Destroyed asteroids: 0");
+        //Score part should be extracted to separate module
+        UiTextElement score = new UiTextElement("Destroyed asteroids: ",10,20,255,0,255);
+        gameUi.addUiTextElement(score);
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-        gameWindow.getChildren().add(text);
         BackgroundFill backgroundFill = new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY);
         Background background = new Background(backgroundFill);
         gameWindow.setBackground(background);
+        Scene scene = initiateScene();
+
+        // Lookup all Game Plugins using ServiceLoader
+        for (IGamePluginService iGamePlugin : getPluginServices()) {
+            iGamePlugin.start(gameData, world);
+        }
+        draw();
+
+        render();
+
+        window.setScene(scene);
+        window.setTitle("ASTEROIDS");
+        window.show();
+
+    }
+
+    private Scene initiateScene() {
         Scene scene = new Scene(gameWindow);
         scene.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.LEFT)) {
@@ -78,19 +93,7 @@ public class Main extends Application {
                 gameData.getKeys().setKey(GameKeys.SPACE, false);
             }
         });
-
-        // Lookup all Game Plugins using ServiceLoader
-        for (IGamePluginService iGamePlugin : getPluginServices()) {
-            iGamePlugin.start(gameData, world);
-        }
-        draw();
-
-        render();
-
-        window.setScene(scene);
-        window.setTitle("ASTEROIDS");
-        window.show();
-
+        return scene;
     }
 
     private void render() {
@@ -102,6 +105,7 @@ public class Main extends Application {
                 then = now;
                 update(deltaTime/10_000_000.0);
                 draw();
+                drawUI();
                 gameData.getKeys().update();
             }
 
@@ -117,6 +121,9 @@ public class Main extends Application {
         for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
             postEntityProcessorService.postProcess(gameData, world);
         }
+        for (IUIProcessingService uiProcessingService : getIUIProcessingServices()) {
+            uiProcessingService.process(gameData, gameUi);
+        }
 
     }
 
@@ -129,9 +136,6 @@ public class Main extends Application {
                         entity.getGreenValue(),
                         entity.getBlueValue());
                 polygon.setFill(color);
-
-//                polygon.setStroke(color);
-//                polygon.setStrokeWidth(2);
                 polygons.put(entity,polygon);
                 gameWindow.getChildren().add(polygon);
             }
@@ -146,6 +150,35 @@ public class Main extends Application {
                 polygon.setRotate(entity.getRotation());
             }
         }
+
+    }
+    private void drawUI(){
+        // go through each element in game ui and update ui accordingly
+        for (UiTextElement textElement : gameUi.getUiTextElements()) {
+            Text text;
+            if(!elementTextMap.containsKey(textElement)){
+                text = new Text(textElement.getText());
+                text.setY(textElement.getY());
+                text.setX(textElement.getX());
+
+                elementTextMap.put(textElement,text);
+                gameWindow.getChildren().add(text);
+            }
+            else {
+                text = elementTextMap.get(textElement);
+            }
+            Color color = Color.rgb(
+                    textElement.getRedValue(),
+                    textElement.getGreenValue(),
+                    textElement.getBlueValue());
+            text.setFill(color);
+            text.setText(textElement.getText());
+            text.setX(textElement.getX());
+            text.setY(textElement.getY());
+        }
+        for (UiPolygonElement polygonElement : gameUi.getUiPolygonElements()) {
+            //Each element
+        }
     }
 
     private Collection<? extends IGamePluginService> getPluginServices() {
@@ -158,5 +191,8 @@ public class Main extends Application {
 
     private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
         return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+    }
+    private Collection<? extends IUIProcessingService> getIUIProcessingServices() {
+        return ServiceLoader.load(IUIProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
 }

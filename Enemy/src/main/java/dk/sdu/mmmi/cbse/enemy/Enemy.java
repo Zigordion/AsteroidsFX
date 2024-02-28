@@ -10,9 +10,7 @@ public class Enemy extends Entity {
                 setActive(false);
             }
         }
-        else if(other instanceof Enemy){
-            return;
-        }else {
+        else if(!(other instanceof Enemy)){
             setActive(false);
         }
     }

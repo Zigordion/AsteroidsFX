@@ -18,6 +18,15 @@ public class CircularCollisionController implements IPostEntityProcessingService
             //2. detect who shot the bullet and disregard them when
             //   checking for collisions.
 
+
+        /*
+        create a common collisions detector, which will contain an interface which subclasses of entity can implement
+        it will contain the onHit method.
+        Collision controller could then check if entity is instance of collisionDetector, this would prevent violation
+        of the Liskov's Substitution principle. It would however increase the amount of dependencies
+
+         */
+
         for (Entity entity : world.getEntities() ) {
             double[] coords = entity.getPolygonCoordinates();
             double entityRadius = 0;

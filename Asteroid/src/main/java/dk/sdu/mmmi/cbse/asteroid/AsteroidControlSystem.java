@@ -12,7 +12,7 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
     private final double maxTimer = 200;
     private final double speed = 0.6;
     private final double rotationSpeed = 1;
-    private final int asteroidsPrDestruction = 3;
+    private final int asteroidsPrDestruction = 2;
     private final double newSizeModifier = 0.7;
     private Random random = new Random();
     private World world;
