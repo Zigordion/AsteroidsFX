@@ -38,10 +38,11 @@ public class PlayerHealthSystem implements IUIProcessingService, IGamePluginServ
     public void processUI(GameData gameData, GameUi gameUi) {
         GameData = gameData;
         playerHealthTitle.setY(20);
-        playerHealthTitle.setX(gameData.getDisplayWidth()-40);
+        playerHealthTitle.setX(gameData.getDisplayWidth()-80);
         playerHealthIndicator.setY(40);
-        playerHealthIndicator.setX(gameData.getDisplayWidth()-40);
-        playerHealthIndicator.setText(""+playerHealth);
+        playerHealthIndicator.setX(gameData.getDisplayWidth()-80);
+
+        playerHealthIndicator.setText("❤".repeat(playerHealth));
         if(gameOverText!= null){
             gameOverText.setY(gameData.getDisplayHeight()/2.0);
             gameOverText.setX(gameData.getDisplayWidth()/2.0);

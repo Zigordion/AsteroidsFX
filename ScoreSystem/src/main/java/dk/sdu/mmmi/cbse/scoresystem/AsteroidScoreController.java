@@ -32,7 +32,6 @@ public class AsteroidScoreController implements IUIProcessingService, IEntityPro
         for (Entity entity : entities) {
             if(entity instanceof Asteroid){
                 entity.addOnHitListener(this);
-                //System.out.println("add listener");
             }
         }
     }

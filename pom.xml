@@ -21,6 +21,7 @@
         <module>CircularCollision</module>
         <module>Health</module>
         <module>ScoreSystem</module>
+        <module>Weapon</module>
     </modules>
     <properties>
         <java>java</java>

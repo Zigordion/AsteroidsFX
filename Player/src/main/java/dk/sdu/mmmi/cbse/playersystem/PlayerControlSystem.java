@@ -18,6 +18,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
     private final double rotationSpeed = 3.5;
     private final double moveSpeed = 1;
 
+
     @Override
     public void process(double deltaTime, GameData gameData, World world) {
         for (Entity player : world.getEntities(Player.class)) {
@@ -34,14 +35,9 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 player.setY(player.getY() + changeY*moveSpeed*deltaTime);
             }
 
-            if (gameData.getKeys().isPressed(GameKeys.SPACE)) { //doesn't get called if up and left is clicked
-                getBulletSPIs().stream().findFirst().ifPresent(
-                        spi -> {
-                            Entity bullet = spi.createBullet(player, gameData);
-                            bullet.setRGB(255,255,255);
-                            world.addEntity(bullet);
-                        }
-                );
+            if (gameData.getKeys().isPressed(GameKeys.SPACE)) { //doesn't get called if up and left is clicked, only laptop
+                Player playerEnt = (Player) player;
+                playerEnt.notifyListeners(gameData,world,player);
             }
             validatePlayerPosition(gameData, player);
         }
