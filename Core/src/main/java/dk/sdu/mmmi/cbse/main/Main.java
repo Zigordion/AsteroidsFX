@@ -1,16 +1,14 @@
 package dk.sdu.mmmi.cbse.main;
 
 import dk.sdu.mmmi.cbse.common.data.*;
-import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
-import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.services.*;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 import static java.util.stream.Collectors.toList;
 
-import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -64,6 +62,9 @@ public class Main extends Application {
         iuiProcessingServiceCollection = getIUIProcessingServices();
         iPostEntityProcessingServices = getPostEntityProcessingServices();
         iEntityProcessingServices = getEntityProcessingServices();
+        for (ILateStartService lateStartService : getLateStartServices()) {
+            lateStartService.lateStart(gameData, world);
+        }
     }
 
     private Scene initiateScene() {
@@ -189,6 +190,9 @@ public class Main extends Application {
 
     private Collection<? extends IGamePluginService> getPluginServices() {
         return ServiceLoader.load(IGamePluginService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+    }
+    private Collection<? extends ILateStartService> getLateStartServices() {
+        return ServiceLoader.load(ILateStartService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
 
     private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {

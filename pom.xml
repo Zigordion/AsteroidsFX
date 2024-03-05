@@ -7,6 +7,14 @@
     <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>AsteroidsJPMS</name>
+    <dependencies>
+        <dependency>
+            <groupId>dk.sdu.mmmi.cbse.weapon</groupId>
+            <artifactId>Weapon</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
     <repositories>
     </repositories>
 
@@ -22,6 +30,8 @@
         <module>Health</module>
         <module>ScoreSystem</module>
         <module>Weapon</module>
+        <module>MultishotWeapon</module>
+        <module>Pickup</module>
     </modules>
     <properties>
         <java>java</java>
