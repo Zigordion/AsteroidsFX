@@ -1,0 +1,3 @@
+module MultishotWeapon {
+    requires Weapon;
+}
