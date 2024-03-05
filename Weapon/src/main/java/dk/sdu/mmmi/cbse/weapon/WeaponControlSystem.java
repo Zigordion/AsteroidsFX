@@ -14,19 +14,19 @@ import java.util.ServiceLoader;
 import static java.util.stream.Collectors.toList;
 
 public class WeaponControlSystem implements IPlayerShootListener, ILateStartService {
+    private CommonWeapon currentWeapon;
     @Override
     public void notifyShot(GameData gameData, World world, Entity entity) {
+        if(currentWeapon == null){
+            currentWeapon = new CommonWeapon();
+        }
         getBulletSPIs().stream().findFirst().ifPresent(
                 spi -> {
-                    Entity bullet = spi.createBullet(entity, gameData);
-                    bullet.setRGB(255,255,255);
-                    world.addEntity(bullet);
+                    currentWeapon.shoot(gameData,world,entity,spi);
                 }
         );
     }
-    private Collection<? extends BulletSPI> getBulletSPIs() {
-        return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-    }
+
 
     @Override
     public void lateStart(GameData gameData, World world) { 
@@ -36,4 +36,10 @@ public class WeaponControlSystem implements IPlayerShootListener, ILateStartServ
         }
     }
 
+    public void setCurrentWeapon(CommonWeapon currentWeapon) {
+        this.currentWeapon = currentWeapon;
+    }
+    private Collection<? extends BulletSPI> getBulletSPIs() {
+        return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+    }
 }
