@@ -31,6 +31,7 @@ public class CommonWeapon extends Entity {
         //Add to weapon control system
         //How to get wcs? provide it as a service and get it through loader?
 
+
     }
 
 }

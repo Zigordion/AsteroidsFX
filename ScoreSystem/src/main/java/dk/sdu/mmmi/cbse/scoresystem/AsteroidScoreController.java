@@ -20,10 +20,8 @@ public class AsteroidScoreController implements IUIProcessingService, IEntityPro
 
 
     @Override
-    public void notifyHit() {
+    public void notifyHit(Entity origin, Entity other) {
         asteroidScore++;
-        System.out.println("hit registered +" + asteroidScore);
-
     }
 
     @Override

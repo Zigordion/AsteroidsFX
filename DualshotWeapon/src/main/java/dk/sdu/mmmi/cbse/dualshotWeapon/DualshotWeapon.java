@@ -1,22 +1,24 @@
-package dk.sdu.mmmi.cbse.multishotWeapon;
+package dk.sdu.mmmi.cbse.dualshotWeapon;
 import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.weapon.CommonWeapon;
 
-public class MultishotWeapon extends CommonWeapon {
+public class DualshotWeapon extends CommonWeapon {
     @Override
     public void shoot(GameData gameData, World world, Entity entity, BulletSPI spi) {
-        Entity bullet = createBullet(gameData,entity,spi,45);
-        Entity bullet1 = createBullet(gameData,entity,spi,-45);
-        Entity bullet2 = createBullet(gameData, entity, spi,0);
-        world.addEntity(bullet2);
+        Entity bullet = createBullet(gameData,entity,spi,15);
+        Entity bullet1 = createBullet(gameData,entity,spi,-15);
         world.addEntity(bullet1);
         world.addEntity(bullet);
     }
 
     private Entity createBullet(GameData gameData, Entity entity, BulletSPI spi, int rotation) {
+        //Offset bullets by variable amount in the x or y direction depending on the rotation
+        //Find out which direction the shooter is facing
+
+        //tmp
         Entity bullet = spi.createBullet(entity, gameData);
         bullet.setRGB(255,255,255);
         bullet.setRotation(entity.getRotation()+rotation);

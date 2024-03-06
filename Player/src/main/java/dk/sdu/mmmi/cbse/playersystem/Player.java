@@ -16,6 +16,7 @@ public class Player extends Entity {
 
     @Override
     public void onHit(Entity other) {
+        //Could be removed by spawning bullet with an offset from the player
         if(other instanceof Bullet bullet){
             if(bullet.getShooter()==this){
                 return;

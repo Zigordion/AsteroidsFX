@@ -23,6 +23,7 @@
         <module>ScoreSystem</module>
         <module>Weapon</module>
         <module>MultishotWeapon</module>
+        <module>DualshotWeapon</module>
     </modules>
     <properties>
         <java>java</java>

@@ -183,9 +183,6 @@ public class Main extends Application {
             text.setX(textElement.getX());
             text.setY(textElement.getY());
         }
-        for (UiPolygonElement polygonElement : gameUi.getUiPolygonElements()) {
-            //Each element
-        }
     }
 
     private Collection<? extends IGamePluginService> getPluginServices() {

@@ -70,7 +70,7 @@ public class PlayerHealthSystem implements IUIProcessingService, IGamePluginServ
     }
 
     @Override
-    public void notifyHit() {
+    public void notifyHit(Entity origin, Entity other) {
         playerHealth--;
         player.setX(GameData.getDisplayWidth()/2.0);
         player.setY(GameData.getDisplayHeight()/2.0);

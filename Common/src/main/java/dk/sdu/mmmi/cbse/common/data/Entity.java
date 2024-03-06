@@ -20,7 +20,7 @@ public abstract class Entity implements Serializable {
 
     public void onHit(Entity other){
         for (OnHitListener onHitListener : onHitListeners) {
-            onHitListener.notifyHit();
+            onHitListener.notifyHit(this,other);
         }
     }
     public void addOnHitListener(OnHitListener onHitListener){
