@@ -16,13 +16,16 @@ public abstract class Entity implements Serializable {
     private int blueValue;
     private double rotation;
     private boolean isActive;
-    private ArrayList<OnHitListener> onHitListeners = new ArrayList<>();
 
+    protected boolean canCollide = true;
+
+    private ArrayList<OnHitListener> onHitListeners = new ArrayList<>();
     public void onHit(Entity other){
         for (OnHitListener onHitListener : onHitListeners) {
             onHitListener.notifyHit(this,other);
         }
     }
+
     public void addOnHitListener(OnHitListener onHitListener){
         if(onHitListeners.contains(onHitListener)){
             return;
@@ -32,7 +35,6 @@ public abstract class Entity implements Serializable {
     public String getID() {
         return ID.toString();
     }
-
 
     public void setPolygonCoordinates(double... coordinates ) {
         this.polygonCoordinates = coordinates;
@@ -52,6 +54,12 @@ public abstract class Entity implements Serializable {
         this.x =x;
     }
 
+    public boolean getCanCollide() {
+        return canCollide;
+    }
+    public void setCanCollide(boolean value) {
+        canCollide = value;
+    }
     public double getX() {
         return x;
     }

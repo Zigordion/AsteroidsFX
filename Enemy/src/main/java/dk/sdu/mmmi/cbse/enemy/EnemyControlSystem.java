@@ -1,10 +1,10 @@
 package dk.sdu.mmmi.cbse.enemy;
 
-import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.weapon.IWeaponControlSystem;
 
 import java.util.Collection;
 import java.util.Random;
@@ -43,12 +43,8 @@ public class EnemyControlSystem implements IEntityProcessingService {
                 enemy.setX(gameData.getDisplayWidth()-1);
             }
             if (shootTimer <= 0) {
-                getBulletSPIs().stream().findFirst().ifPresent(
-                        spi -> {
-                            Entity bullet = spi.createBullet(enemy, gameData);
-                            bullet.setRGB(204,0,0);
-                            world.addEntity(bullet);
-                        }
+                getWeaponControlSystem().stream().findFirst().ifPresent(
+                        iWeaponControlSystem -> iWeaponControlSystem.notifyShot(gameData,world,enemy)
                 );
             }
         }
@@ -66,8 +62,8 @@ public class EnemyControlSystem implements IEntityProcessingService {
         enemy.setActive(true);
         return enemy;
     }
-
-    private Collection<? extends BulletSPI> getBulletSPIs() {
-        return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+    private Collection<? extends IWeaponControlSystem> getWeaponControlSystem() {
+        return ServiceLoader.load(IWeaponControlSystem.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
+
 }

@@ -1,11 +1,11 @@
 package dk.sdu.mmmi.cbse.playersystem;
 
-import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.GameKeys;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.weapon.IWeaponControlSystem;
 
 import java.util.Collection;
 import java.util.ServiceLoader;
@@ -36,8 +36,9 @@ public class PlayerControlSystem implements IEntityProcessingService {
             }
 
             if (gameData.getKeys().isPressed(GameKeys.SPACE)) { //doesn't get called if up and left is clicked, only laptop
-                Player playerEnt = (Player) player;
-                playerEnt.notifyListeners(gameData,world,player);
+                getWeaponControlSystem().stream().findFirst().ifPresent(
+                        iWeaponControlSystem -> iWeaponControlSystem.notifyShot(gameData,world,player)
+                );
             }
             validatePlayerPosition(gameData, player);
         }
@@ -60,7 +61,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
         }
     }
 
-    private Collection<? extends BulletSPI> getBulletSPIs() {
-        return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+    private Collection<? extends IWeaponControlSystem> getWeaponControlSystem() {
+        return ServiceLoader.load(IWeaponControlSystem.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
 }

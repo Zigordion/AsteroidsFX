@@ -9,12 +9,9 @@ import java.util.Random;
 
 public class AsteroidControlSystem implements IEntityProcessingService, IAsteroidCreator {
     private static double timer;
-    private final double maxTimer = 200;
-    private final double speed = 0.6;
-    private final double rotationSpeed = 1;
-    private final int asteroidsPrDestruction = 2;
-    private final double newSizeModifier = 0.7;
-    private Random random = new Random();
+    double maxTimer = 200;
+
+    private final Random random = new Random();
     private World world;
     @Override
     public void process(double deltaTime, GameData gameData, World world) {
@@ -28,9 +25,11 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
         }
         for (Entity entity : world.getEntities(Asteroid.class)) {
             if(entity instanceof Asteroid asteroid){
-                asteroid.setX((asteroid.getX()+asteroid.getXDirection()*deltaTime*speed)% gameData.getDisplayWidth());
-                asteroid.setY((asteroid.getY()+asteroid.getYDirection()*deltaTime*speed)% gameData.getDisplayHeight());
-                asteroid.setRotation(asteroid.getRotation()+rotationSpeed*deltaTime);
+                double speed = 0.6;
+                asteroid.setX((asteroid.getX()+asteroid.getXDirection()*deltaTime* speed)% gameData.getDisplayWidth());
+                asteroid.setY((asteroid.getY()+asteroid.getYDirection()*deltaTime* speed)% gameData.getDisplayHeight());
+                double rotationSpeed = 1;
+                asteroid.setRotation(asteroid.getRotation()+ rotationSpeed *deltaTime);
                 if (asteroid.getY() < 0) {
                     asteroid.setY(gameData.getDisplayHeight()-1);
                 }
@@ -85,10 +84,12 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
         double[] polygons = prevAsteroid.getPolygonCoordinates();
         double[] newPolygons = new double[polygons.length];
 
+        double newSizeModifier = 0.7;
         for (int i = 0; i < polygons.length; i++) {
-            newPolygons[i] = polygons[i]*newSizeModifier;
+            newPolygons[i] = polygons[i]* newSizeModifier;
         }
 
+        int asteroidsPrDestruction = 2;
         for (int i = 0; i < asteroidsPrDestruction; i++) {
             //Gets called twice for some reason
             Asteroid asteroid = new Asteroid(prevAsteroid.getSize() * newSizeModifier,this);

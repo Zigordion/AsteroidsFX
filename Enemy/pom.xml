@@ -24,8 +24,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>dk.sdu.mmmi.cbse</groupId>
-            <artifactId>CommonBullet</artifactId>
+            <groupId>dk.sdu.mmmi.cbse.weapon</groupId>
+            <artifactId>Weapon</artifactId>
             <version>1.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
