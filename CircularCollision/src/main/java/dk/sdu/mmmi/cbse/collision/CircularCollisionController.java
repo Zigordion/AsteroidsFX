@@ -24,7 +24,6 @@ public class CircularCollisionController implements IPostEntityProcessingService
         it will contain the onHit method.
         Collision controller could then check if entity is instance of collisionDetector, this would prevent violation
         of the Liskov's Substitution principle. It would however increase the amount of dependencies
-
          */
 
         for (Entity entity : world.getEntities() ) {

@@ -25,13 +25,4 @@ public class CommonWeapon extends Entity {
         bullet.setRGB(255,255,255);
         world.addEntity(bullet);
     }
-    @Override
-    public void onHit(Entity other) {
-        super.onHit(other);
-        //Add to weapon control system
-        //How to get wcs? provide it as a service and get it through loader?
-
-
-    }
-
 }

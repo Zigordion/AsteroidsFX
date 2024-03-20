@@ -1,17 +1,10 @@
 package dk.sdu.mmmi.cbse.playersystem;
 
-import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.GameKeys;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-
-import java.util.Collection;
-import java.util.ServiceLoader;
-
-import static java.util.stream.Collectors.toList;
-
 
 public class PlayerControlSystem implements IEntityProcessingService {
 
@@ -36,6 +29,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
             }
 
             if (gameData.getKeys().isPressed(GameKeys.SPACE)) { //doesn't get called if up and left is clicked, only laptop
+
                 Player playerEnt = (Player) player;
                 playerEnt.notifyListeners(gameData,world,player);
             }
@@ -60,7 +54,4 @@ public class PlayerControlSystem implements IEntityProcessingService {
         }
     }
 
-    private Collection<? extends BulletSPI> getBulletSPIs() {
-        return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-    }
 }
