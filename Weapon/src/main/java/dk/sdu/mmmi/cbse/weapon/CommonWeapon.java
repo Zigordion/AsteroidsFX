@@ -25,6 +25,4 @@ public class CommonWeapon {
         bullet.setRGB(255,255,255);
         world.addEntity(bullet);
     }
-
-
 }

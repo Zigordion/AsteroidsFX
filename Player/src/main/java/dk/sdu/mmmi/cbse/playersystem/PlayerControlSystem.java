@@ -7,12 +7,6 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.weapon.IWeaponControlSystem;
 
-import java.util.Collection;
-import java.util.ServiceLoader;
-
-import static java.util.stream.Collectors.toList;
-
-
 public class PlayerControlSystem implements IEntityProcessingService {
 
     private final double rotationSpeed = 3.5;
