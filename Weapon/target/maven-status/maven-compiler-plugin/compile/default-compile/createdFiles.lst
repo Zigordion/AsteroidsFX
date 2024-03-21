@@ -1,5 +1,4 @@
 dk\sdu\mmmi\cbse\weapon\WeaponControlSystem.class
-dk\sdu\mmmi\cbse\weapon\IWeaponControlSystem.class
 module-info.class
 dk\sdu\mmmi\cbse\weapon\WeaponSPI.class
 dk\sdu\mmmi\cbse\weapon\CommonWeapon.class

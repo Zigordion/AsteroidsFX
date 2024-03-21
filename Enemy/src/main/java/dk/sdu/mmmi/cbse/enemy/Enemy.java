@@ -11,7 +11,7 @@ public class Enemy extends Entity implements IEventListener {
     }
 
     @Override
-    public void onTrigger(Entity ... entities) {
+    public void onTrigger(EventType eventType, Entity ... entities) {
         for (Entity entity : entities) {
             if(entity == this){
                 setActive(false);

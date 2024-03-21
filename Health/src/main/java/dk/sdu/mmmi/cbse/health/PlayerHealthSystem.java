@@ -6,9 +6,6 @@ import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
 import dk.sdu.mmmi.cbse.playersystem.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PlayerHealthSystem implements IUIProcessingService, IGamePluginService, IEventListener {
     /*
        Common health module, which is simply responsible for keeping track of health and send signal when health is 0
@@ -67,7 +64,7 @@ public class PlayerHealthSystem implements IUIProcessingService, IGamePluginServ
     }
 
     @Override
-    public void onTrigger(Entity ... entities) {
+    public void onTrigger(EventType eventType, Entity ... entities) {
         for (Entity entity : entities) {
             if(entity instanceof Player player){
                 playerHealth--;

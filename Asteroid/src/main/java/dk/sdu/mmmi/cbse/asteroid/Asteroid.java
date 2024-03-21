@@ -5,8 +5,6 @@ import dk.sdu.mmmi.cbse.common.data.EventBroker;
 import dk.sdu.mmmi.cbse.common.data.EventType;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
 
-import java.util.List;
-
 public class Asteroid extends Entity implements IEventListener {
     private double xDirection;
     private final double size;
@@ -41,7 +39,7 @@ public class Asteroid extends Entity implements IEventListener {
 
 
     @Override
-    public void onTrigger(Entity ... entities) {
+    public void onTrigger(EventType eventType, Entity ... entities) {
         outerForLoop:
         for (Entity entity : entities)  {
             for (Entity other : entities) {

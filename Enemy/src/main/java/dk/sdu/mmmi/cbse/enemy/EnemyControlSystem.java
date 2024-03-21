@@ -1,16 +1,9 @@
 package dk.sdu.mmmi.cbse.enemy;
 
-import dk.sdu.mmmi.cbse.common.data.Entity;
-import dk.sdu.mmmi.cbse.common.data.GameData;
-import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-import dk.sdu.mmmi.cbse.weapon.IWeaponControlSystem;
 
-import java.util.Collection;
 import java.util.Random;
-import java.util.ServiceLoader;
-
-import static java.util.stream.Collectors.toList;
 
 public class EnemyControlSystem implements IEntityProcessingService {
     private static double timer;
@@ -43,9 +36,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
                 enemy.setX(gameData.getDisplayWidth()-1);
             }
             if (shootTimer <= 0) {
-                getWeaponControlSystem().stream().findFirst().ifPresent(
-                        iWeaponControlSystem -> iWeaponControlSystem.notifyShot(gameData,world,enemy)
-                );
+                EventBroker.getInstance().triggerEvent(EventType.SHOOT,enemy);
             }
         }
         if (shootTimer <= 0) {
@@ -61,9 +52,6 @@ public class EnemyControlSystem implements IEntityProcessingService {
         enemy.setY(random.nextDouble(5, gameData.getDisplayHeight() - 5));
         enemy.setActive(true);
         return enemy;
-    }
-    private Collection<? extends IWeaponControlSystem> getWeaponControlSystem() {
-        return ServiceLoader.load(IWeaponControlSystem.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
 
 }

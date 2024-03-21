@@ -1,4 +1,5 @@
-import dk.sdu.mmmi.cbse.weapon.IWeaponControlSystem;
+import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.weapon.WeaponControlSystem;
 
 module Weapon {
@@ -7,5 +8,6 @@ module Weapon {
     uses dk.sdu.mmmi.cbse.weapon.WeaponSPI;
     requires Common;
     requires CommonBullet;
-    provides IWeaponControlSystem with WeaponControlSystem;
+    provides IEntityProcessingService with WeaponControlSystem;
+    provides IGamePluginService with WeaponControlSystem;
 }

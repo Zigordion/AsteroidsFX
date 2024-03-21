@@ -5,9 +5,6 @@ import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class AsteroidScoreController implements IUIProcessingService, IEventListener {
     private static int asteroidScore;
@@ -23,7 +20,7 @@ public class AsteroidScoreController implements IUIProcessingService, IEventList
     }
 
     @Override
-    public void onTrigger(Entity... entities) {
+    public void onTrigger(EventType eventType, Entity... entities) {
         asteroidScore++;
     }
 

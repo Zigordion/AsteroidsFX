@@ -4,6 +4,7 @@ public enum EventType {
     COLLISION,
     ASTEROID_DESTROYED,
     PLAYER_HIT,
-    SHOOT
+    SHOOT,
+    WEAPON_PICKUP
 
 }

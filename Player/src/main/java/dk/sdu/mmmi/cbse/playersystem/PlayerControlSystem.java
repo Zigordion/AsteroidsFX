@@ -2,11 +2,6 @@ package dk.sdu.mmmi.cbse.playersystem;
 
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-import dk.sdu.mmmi.cbse.weapon.IWeaponControlSystem;
-
-import java.util.Collection;
-import java.util.ServiceLoader;
-import java.util.stream.Collectors;
 
 public class PlayerControlSystem implements IEntityProcessingService {
 
@@ -32,9 +27,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
 
             if (gameData.getKeys().isPressed(GameKeys.SPACE)) { //doesn't get called if up and left is clicked, only laptop
                 EventBroker.getInstance().triggerEvent(EventType.SHOOT,player);
-                getWeaponControlSystem().stream().findFirst().ifPresent(
-                        iWeaponControlSystem -> iWeaponControlSystem.notifyShot(gameData,world,player)
-                );
+                System.out.println("test");
             }
             validatePlayerPosition(gameData, player);
         }
@@ -57,7 +50,5 @@ public class PlayerControlSystem implements IEntityProcessingService {
         }
     }
 
-    private Collection<? extends IWeaponControlSystem> getWeaponControlSystem() {
-        return ServiceLoader.load(IWeaponControlSystem.class).stream().map(ServiceLoader.Provider::get).collect(Collectors.toList());
-    }
+
 }
