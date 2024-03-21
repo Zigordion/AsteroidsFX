@@ -6,5 +6,4 @@ module ScoreSystem {
     requires Common;
     requires Asteroid;
     provides IUIProcessingService with AsteroidScoreController;
-    provides IEntityProcessingService with AsteroidScoreController;
 }

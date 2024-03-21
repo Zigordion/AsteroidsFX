@@ -1,4 +1,6 @@
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.services.IEventListener;
+import dk.sdu.mmmi.cbse.enemy.Enemy;
 import dk.sdu.mmmi.cbse.enemy.EnemyControlSystem;
 
 module Enemy {
@@ -7,5 +9,5 @@ module Enemy {
     requires Weapon;
     uses dk.sdu.mmmi.cbse.weapon.IWeaponControlSystem;
     provides IEntityProcessingService with EnemyControlSystem;
-
+    provides IEventListener with Enemy;
 }

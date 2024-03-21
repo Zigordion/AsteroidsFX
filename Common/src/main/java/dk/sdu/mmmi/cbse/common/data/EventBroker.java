@@ -1,17 +1,14 @@
 package dk.sdu.mmmi.cbse.common.data;
 
-import dk.sdu.mmmi.cbse.common.services.AEventListener;
-import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.services.IEventListener;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.ServiceLoader;
+import java.util.concurrent.ConcurrentHashMap;
 
-import static java.util.stream.Collectors.toList;
+public class EventBroker {
 
-public class EventBroker implements IPostEntityProcessingService {
-
-    Map<AEventListener, EventType> listenerTopicMap;
+    private final Map<IEventListener, EventType> listenerTopicMap = new ConcurrentHashMap<>();
 
     private EventBroker(){}
     private static EventBroker instance;
@@ -22,42 +19,19 @@ public class EventBroker implements IPostEntityProcessingService {
         return instance;
     }
 
-    public void addListener(AEventListener eventListener, EventType eventType){
+    public void addListener(IEventListener eventListener, EventType eventType){
         listenerTopicMap.put(eventListener, eventType);
     }
-    public void removeListener(AEventListener eventListener){
+    public void removeListener(IEventListener eventListener){
         listenerTopicMap.remove(eventListener);
     }
 
-    public void triggerEvent(EventType eventType){
-        for (AEventListener eventListener : listenerTopicMap.keySet()) {
+    public void triggerEvent(EventType eventType,Entity ... entities){
+        for (IEventListener eventListener : listenerTopicMap.keySet()) {
             if(listenerTopicMap.get(eventListener) == eventType){
-                eventListener.onTrigger(eventType);
-            }
-        }
-    }
-    public void triggerEvent(EventType eventType,Entity entity, Entity entity2){
-        for (AEventListener eventListener : listenerTopicMap.keySet()) {
-            if(listenerTopicMap.get(eventListener) == eventType){
-                eventListener.onTrigger(eventType);
+                eventListener.onTrigger(entities);
             }
         }
     }
 
-
-    @Override
-    public void postProcess(GameData gameData, World world) {
-        List<AEventListener> eventListeners = getIEventListeners();
-        for (AEventListener eventListener : eventListeners) {
-            if(!listenerTopicMap.containsKey(eventListener)){
-                for (EventType topic : eventListener.getTopics()) {
-                    addListener(eventListener, topic);
-                }
-            }
-        }
-    }
-
-    private List<AEventListener> getIEventListeners(){
-        return ServiceLoader.load(AEventListener.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-    }
 }

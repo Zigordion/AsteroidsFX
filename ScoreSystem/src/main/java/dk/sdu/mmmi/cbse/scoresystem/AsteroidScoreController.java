@@ -1,16 +1,20 @@
 package dk.sdu.mmmi.cbse.scoresystem;
 
-import dk.sdu.mmmi.cbse.asteroid.Asteroid;
+
 import dk.sdu.mmmi.cbse.common.data.*;
-import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class AsteroidScoreController implements IUIProcessingService, IEntityProcessingService, OnHitListener {
+public class AsteroidScoreController implements IUIProcessingService, IEventListener {
     private static int asteroidScore;
-    private UiTextElement score = new UiTextElement("" + asteroidScore,10,20,255,255,255);
+    public AsteroidScoreController(){
+        EventBroker.getInstance().addListener(this,EventType.ASTEROID_DESTROYED);
+    }
+    private final UiTextElement score = new UiTextElement("" + asteroidScore,10,20,255,255,255);
 
     @Override
     public void processUI(GameData gameData, GameUi gameUi) {
@@ -18,21 +22,12 @@ public class AsteroidScoreController implements IUIProcessingService, IEntityPro
         gameUi.addUiTextElement(score);
     }
 
-
     @Override
-    public void notifyHit(Entity origin, Entity other) {
+    public void onTrigger(Entity... entities) {
         asteroidScore++;
     }
 
-    @Override
-    public void process(double deltaTime, GameData gameData, World world) {
-        Collection<Entity> entities = world.getEntities();
-        for (Entity entity : entities) {
-            if(entity instanceof Asteroid){
-                entity.addOnHitListener(this);
-            }
-        }
-    }
+
 
     //some method which increments asteroid score when the asteroid's onHit method is called by a bullet sent by a player
     //listen to event on asteroid

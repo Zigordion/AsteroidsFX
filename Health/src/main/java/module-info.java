@@ -1,3 +1,4 @@
+import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
 import dk.sdu.mmmi.cbse.health.PlayerHealthSystem;

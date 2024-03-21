@@ -1,12 +1,15 @@
 package dk.sdu.mmmi.cbse.health;
 
 import dk.sdu.mmmi.cbse.common.data.*;
-import dk.sdu.mmmi.cbse.common.services.AEventListener;
+import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
 import dk.sdu.mmmi.cbse.playersystem.Player;
 
-public class PlayerHealthSystem implements IUIProcessingService, IGamePluginService, AEventListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PlayerHealthSystem implements IUIProcessingService, IGamePluginService, IEventListener {
     /*
        Common health module, which is simply responsible for keeping track of health and send signal when health is 0
        Player stat module, requires common health & player, would then listen? to the onhit and give common health module
@@ -32,8 +35,6 @@ public class PlayerHealthSystem implements IUIProcessingService, IGamePluginServ
     private UiTextElement playerHealthIndicator = new UiTextElement("",0,0,255,255,255);
 
     private static UiTextElement gameOverText;
-
-    private static Entity player;
     private static GameData GameData;
     @Override
     public void processUI(GameData gameData, GameUi gameUi) {
@@ -57,33 +58,28 @@ public class PlayerHealthSystem implements IUIProcessingService, IGamePluginServ
     @Override
     public void start(GameData gameData, World world) {
         playerHealth = maxPlayerHealth;
-        for (Entity entity : world.getEntities()) {
-
-        }
+        EventBroker.getInstance().addListener(this,EventType.PLAYER_HIT);
     }
 
     @Override
     public void stop(GameData gameData, World world) {
-
-    }
-
-
-    @Override
-    public void onTrigger(EventType eventType) {
-
+        EventBroker.getInstance().removeListener(this);
     }
 
     @Override
-    public void onTrigger(EventType eventType, Entity entity, Entity other) {
-        if(eventType != EventType.COLLISION && !(entity instanceof Player) ){
-            return;
-        }
-        playerHealth--;
-        player.setX(GameData.getDisplayWidth()/2.0);
-        player.setY(GameData.getDisplayHeight()/2.0);
-        if(playerHealth<=0){
-            player.setActive(false);
-            gameOverText = new UiTextElement("Game Over",0,0,255,0,0);
+    public void onTrigger(Entity ... entities) {
+        for (Entity entity : entities) {
+            if(entity instanceof Player player){
+                playerHealth--;
+                player.setX(GameData.getDisplayWidth()/2.0);
+                player.setY(GameData.getDisplayHeight()/2.0);
+                if(playerHealth<=0){
+                    player.setActive(false);
+                    EventBroker.getInstance().removeListener(player);
+                    gameOverText = new UiTextElement("Game Over",0,0,255,0,0);
+                }
+            }
         }
     }
+
 }

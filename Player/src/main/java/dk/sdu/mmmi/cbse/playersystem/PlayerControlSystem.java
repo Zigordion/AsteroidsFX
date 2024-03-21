@@ -1,9 +1,6 @@
 package dk.sdu.mmmi.cbse.playersystem;
 
-import dk.sdu.mmmi.cbse.common.data.Entity;
-import dk.sdu.mmmi.cbse.common.data.GameData;
-import dk.sdu.mmmi.cbse.common.data.GameKeys;
-import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.weapon.IWeaponControlSystem;
 
@@ -34,6 +31,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
             }
 
             if (gameData.getKeys().isPressed(GameKeys.SPACE)) { //doesn't get called if up and left is clicked, only laptop
+                EventBroker.getInstance().triggerEvent(EventType.SHOOT,player);
                 getWeaponControlSystem().stream().findFirst().ifPresent(
                         iWeaponControlSystem -> iWeaponControlSystem.notifyShot(gameData,world,player)
                 );

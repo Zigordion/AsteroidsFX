@@ -1,7 +1,7 @@
-import dk.sdu.mmmi.cbse.common.services.AEventListener;
+import dk.sdu.mmmi.cbse.common.services.IEventListener;
 
 module Common {
-    uses AEventListener;
+    uses IEventListener;
     exports dk.sdu.mmmi.cbse.common.services;
     exports dk.sdu.mmmi.cbse.common.data;
 }
