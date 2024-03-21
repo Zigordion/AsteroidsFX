@@ -1,11 +1,11 @@
 package dk.sdu.mmmi.cbse.collision;
 
-import dk.sdu.mmmi.cbse.common.data.Entity;
-import dk.sdu.mmmi.cbse.common.data.GameData;
-import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 
 public class CircularCollisionController implements IPostEntityProcessingService {
+
+    private final EventBroker eventBroker = EventBroker.getInstance();
     @Override
     public void postProcess(GameData gameData, World world) {
         //Get all entities.
@@ -47,7 +47,7 @@ public class CircularCollisionController implements IPostEntityProcessingService
                     double distance = Math.sqrt(deltaX*deltaX+deltaY*deltaY);
                     if(distance < entityRadius+otherRadius){
                         //collided
-                        entity.onHit(other);
+                        eventBroker.triggerEvent(EventType.COLLISION, entity,other);
                     }
                 }
             }

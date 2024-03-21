@@ -1,12 +1,17 @@
 package dk.sdu.mmmi.cbse.asteroid;
 import dk.sdu.mmmi.cbse.common.bullet.Bullet;
 import dk.sdu.mmmi.cbse.common.data.Entity;
+import dk.sdu.mmmi.cbse.common.data.EventType;
+import dk.sdu.mmmi.cbse.common.services.AEventListener;
 
-public class Asteroid extends Entity  {
+import java.util.List;
+
+public class Asteroid extends AEventListener {
     private double xDirection;
     private final double size;
     private final IAsteroidCreator asteroidCreator;
     public Asteroid(double size, IAsteroidCreator asteroidCreator){
+
         this.size = size;
         this.asteroidCreator = asteroidCreator;
     }
@@ -29,21 +34,23 @@ public class Asteroid extends Entity  {
         this.xDirection = xDirection;
     }
 
-    @Override
-    public void onHit(Entity other) {
-        if(!(other instanceof Bullet)){
-            return;
-        }
-        if(size/2.0>1.5){
-            asteroidCreator.createSmallerAsteroid(this);
-        }
-        super.onHit(other);
-        setActive(false);
-    }
-
     public double getSize() {
         return size;
     }
 
+    @Override
+    public void onTrigger(EventType eventType) {
+
+    }
+
+    @Override
+    public void onTrigger(EventType eventType, Entity entity, Entity other) {
+        if(eventType == EventType.COLLISION && entity == this && other instanceof Bullet){
+            if(size/2.0>1.5){
+                asteroidCreator.createSmallerAsteroid(this);
+            }
+            setActive(false);
+        }
+    }
 
 }

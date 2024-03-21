@@ -17,19 +17,6 @@ public abstract class Entity implements Serializable {
     private double rotation;
     private boolean isActive;
 
-    private ArrayList<OnHitListener> onHitListeners = new ArrayList<>();
-    public void onHit(Entity other){
-        for (OnHitListener onHitListener : onHitListeners) {
-            onHitListener.notifyHit(this,other);
-        }
-    }
-
-    public void addOnHitListener(OnHitListener onHitListener){
-        if(onHitListeners.contains(onHitListener)){
-            return;
-        }
-        onHitListeners.add(onHitListener);
-    }
     public String getID() {
         return ID.toString();
     }

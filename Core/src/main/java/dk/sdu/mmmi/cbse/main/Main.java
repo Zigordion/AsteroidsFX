@@ -147,6 +147,9 @@ public class Main extends Application {
                 gameWindow.getChildren().add(polygon);
             }
             if(!entity.isActive()){
+                if(entity instanceof AEventListener eventListener){
+                    EventBroker.getInstance().removeListener(eventListener);
+                }
                 world.removeEntity(entity);
                 gameWindow.getChildren().remove(polygons.get(entity));
                 polygons.remove(entity);

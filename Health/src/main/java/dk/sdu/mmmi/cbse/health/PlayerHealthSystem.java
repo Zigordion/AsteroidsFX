@@ -1,11 +1,12 @@
 package dk.sdu.mmmi.cbse.health;
 
 import dk.sdu.mmmi.cbse.common.data.*;
+import dk.sdu.mmmi.cbse.common.services.AEventListener;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
 import dk.sdu.mmmi.cbse.playersystem.Player;
 
-public class PlayerHealthSystem implements IUIProcessingService, IGamePluginService, OnHitListener {
+public class PlayerHealthSystem implements IUIProcessingService, IGamePluginService, AEventListener {
     /*
        Common health module, which is simply responsible for keeping track of health and send signal when health is 0
        Player stat module, requires common health & player, would then listen? to the onhit and give common health module
@@ -57,10 +58,7 @@ public class PlayerHealthSystem implements IUIProcessingService, IGamePluginServ
     public void start(GameData gameData, World world) {
         playerHealth = maxPlayerHealth;
         for (Entity entity : world.getEntities()) {
-            if(entity instanceof Player){
-                player = entity;
-                entity.addOnHitListener(this);
-            }
+
         }
     }
 
@@ -69,8 +67,17 @@ public class PlayerHealthSystem implements IUIProcessingService, IGamePluginServ
 
     }
 
+
     @Override
-    public void notifyHit(Entity origin, Entity other) {
+    public void onTrigger(EventType eventType) {
+
+    }
+
+    @Override
+    public void onTrigger(EventType eventType, Entity entity, Entity other) {
+        if(eventType != EventType.COLLISION && !(entity instanceof Player) ){
+            return;
+        }
         playerHealth--;
         player.setX(GameData.getDisplayWidth()/2.0);
         player.setY(GameData.getDisplayHeight()/2.0);
