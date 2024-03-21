@@ -17,8 +17,6 @@ public abstract class Entity implements Serializable {
     private double rotation;
     private boolean isActive;
 
-    protected boolean canCollide = true;
-
     private ArrayList<OnHitListener> onHitListeners = new ArrayList<>();
     public void onHit(Entity other){
         for (OnHitListener onHitListener : onHitListeners) {
@@ -54,12 +52,6 @@ public abstract class Entity implements Serializable {
         this.x =x;
     }
 
-    public boolean getCanCollide() {
-        return canCollide;
-    }
-    public void setCanCollide(boolean value) {
-        canCollide = value;
-    }
     public double getX() {
         return x;
     }

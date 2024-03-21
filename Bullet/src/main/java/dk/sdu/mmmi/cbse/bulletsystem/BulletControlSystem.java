@@ -9,18 +9,11 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
     private final double moveSpeed = 5;
-    private final long delayUntilHit = 0;
 
     @Override
     public void process(double deltaTime, GameData gameData, World world) {
         for (Entity entity : world.getEntities(Bullet.class)) {
             Bullet bullet = (Bullet) entity;
-            long creationTime = bullet.getCreationTime();
-            System.out.println(System.currentTimeMillis()-creationTime);
-            if(System.currentTimeMillis()-creationTime > delayUntilHit) {
-                bullet.setCanCollide(true);
-                System.out.println("can now collide");
-            }
             double changeX = Math.cos(Math.toRadians(bullet.getRotation()));
             double changeY = Math.sin(Math.toRadians(bullet.getRotation()));
             bullet.setX(bullet.getX() + changeX*moveSpeed*deltaTime);
