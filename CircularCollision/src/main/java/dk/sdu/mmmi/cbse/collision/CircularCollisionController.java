@@ -27,9 +27,6 @@ public class CircularCollisionController implements IPostEntityProcessingService
          */
 
         for (Entity entity : world.getEntities() ) {
-            if(!entity.getCanCollide()){
-                continue;
-            }
             double[] coords = entity.getPolygonCoordinates();
             double entityRadius = 0;
             for (double coord : coords) {
@@ -37,9 +34,6 @@ public class CircularCollisionController implements IPostEntityProcessingService
                 entityRadius = Math.max(tmpRadius,entityRadius);
             }
             for (Entity other : world.getEntities() ) {
-                if(!other.getCanCollide()){
-                    continue;
-                }
                 if(entity.getClass() != other.getClass()){
                     //Check collision
                     double[] otherCoords = other.getPolygonCoordinates();

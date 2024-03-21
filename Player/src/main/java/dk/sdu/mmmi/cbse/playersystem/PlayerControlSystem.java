@@ -7,6 +7,10 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.weapon.IWeaponControlSystem;
 
+import java.util.Collection;
+import java.util.ServiceLoader;
+import java.util.stream.Collectors;
+
 public class PlayerControlSystem implements IEntityProcessingService {
 
     private final double rotationSpeed = 3.5;
@@ -56,6 +60,6 @@ public class PlayerControlSystem implements IEntityProcessingService {
     }
 
     private Collection<? extends IWeaponControlSystem> getWeaponControlSystem() {
-        return ServiceLoader.load(IWeaponControlSystem.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        return ServiceLoader.load(IWeaponControlSystem.class).stream().map(ServiceLoader.Provider::get).collect(Collectors.toList());
     }
 }
