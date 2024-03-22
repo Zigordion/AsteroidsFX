@@ -18,8 +18,9 @@ public class PickupGeneratorController implements IEventListener, IGamePluginSer
         List<? extends PickupSPI> pickupGenerators = getPickupSPI();
         Random random = new Random();
         int index = random.nextInt(0,pickupGenerators.size());
-        world.addEntity(pickupGenerators.get(index).createPickup(entities[0]));
-        System.out.println("generated pickup");
+        Pickup pickup = pickupGenerators.get(index).createPickup(entities[0]);
+        world.addEntity(pickup);
+        System.out.println("generated pickup:" + pickup);
         //Do random check for if a pickup should be generated.
         //find all available pickup types
         //spawn them at the first entity's location

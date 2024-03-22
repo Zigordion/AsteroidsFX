@@ -17,6 +17,7 @@ public abstract class Entity implements Serializable {
     private double rotation;
     private boolean isActive;
 
+
     public String getID() {
         return ID.toString();
     }
@@ -43,7 +44,7 @@ public abstract class Entity implements Serializable {
         return x;
     }
 
-    
+
     public void setY(double y) {
         this.y = y;
     }
@@ -80,4 +81,6 @@ public abstract class Entity implements Serializable {
     public int getBlueValue() {
         return blueValue;
     }
+
+
 }

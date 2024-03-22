@@ -3,6 +3,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.EventBroker;
 import dk.sdu.mmmi.cbse.common.data.EventType;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
+import dk.sdu.mmmi.cbse.common.services.Interactable;
 
 public class Enemy extends Entity implements IEventListener {
 
@@ -13,11 +14,18 @@ public class Enemy extends Entity implements IEventListener {
     @Override
     public void onTrigger(EventType eventType, Entity ... entities) {
         for (Entity entity : entities) {
-            if(entity == this){
-                setActive(false);
-                EventBroker.getInstance().removeListener(this);
-                break;
+            if(entity!= this){
+                continue;
             }
+            for (Entity other : entities) {
+                if(other instanceof Interactable){
+                    return;
+                }
+            }
+            setActive(false);
+            EventBroker.getInstance().triggerEvent(EventType.GENERATE_PICKUP,this);
+            EventBroker.getInstance().removeListener(this);
+            break;
         }
     }
 

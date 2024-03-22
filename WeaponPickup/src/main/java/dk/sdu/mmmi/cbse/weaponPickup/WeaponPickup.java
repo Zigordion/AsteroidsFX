@@ -4,6 +4,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.EventBroker;
 import dk.sdu.mmmi.cbse.common.data.EventType;
 import dk.sdu.mmmi.cbse.pickup.Pickup;
+import dk.sdu.mmmi.cbse.playersystem.Player;
 
 public class WeaponPickup extends Pickup {
     public WeaponPickup(){
@@ -11,6 +12,17 @@ public class WeaponPickup extends Pickup {
     }
     @Override
     public void onTrigger(EventType eventType, Entity... entities) {
-        EventBroker.getInstance().triggerEvent(EventType.WEAPON_PICKUP,entities[0]);
+        for (Entity entity : entities) {
+            if(entity != this){
+                continue;
+            }
+            for (Entity other : entities) {
+                if(other instanceof Player){
+                    EventBroker.getInstance().triggerEvent(EventType.WEAPON_PICKUP,other);
+                    setActive(false);
+                    return;
+                }
+            }
+        }
     }
 }

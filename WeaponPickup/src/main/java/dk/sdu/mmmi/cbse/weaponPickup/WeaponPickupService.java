@@ -13,6 +13,7 @@ public class WeaponPickupService implements PickupSPI {
         weaponPickup.setX(entity.getX());
         weaponPickup.setY(entity.getY());
         weaponPickup.setPolygonCoordinates(-4,-4, -4,4, 4,4, 4,-4);
+        weaponPickup.setActive(true);
         return weaponPickup;
     }
 }
