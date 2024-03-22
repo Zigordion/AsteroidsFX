@@ -6,22 +6,22 @@ import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
 
 
-public class AsteroidScoreController implements IUIProcessingService, IEventListener {
-    private static int asteroidScore;
-    public AsteroidScoreController(){
-        EventBroker.getInstance().addListener(this,EventType.ASTEROID_DESTROYED);
+public class scoreController implements IUIProcessingService, IEventListener {
+    private static int score;
+    public scoreController(){
+        EventBroker.getInstance().addListener(this, EventType.ASTEROID_DESTROYED);
     }
-    private final UiTextElement score = new UiTextElement("" + asteroidScore,10,20,255,255,255);
+    private final UiTextElement scoreUI = new UiTextElement("" + score,10,20,255,255,255);
 
     @Override
     public void processUI(GameData gameData, GameUi gameUi) {
-        score.setText("Destroyed asteroids: " + asteroidScore);
-        gameUi.addUiTextElement(score);
+        scoreUI.setText("Destroyed asteroids: " + score);
+        gameUi.addUiTextElement(scoreUI);
     }
 
     @Override
     public void onTrigger(EventType eventType, Entity... entities) {
-        asteroidScore++;
+        score++;
     }
 
 
