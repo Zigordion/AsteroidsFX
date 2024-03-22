@@ -5,6 +5,7 @@ public enum EventType {
     ASTEROID_DESTROYED,
     PLAYER_HIT,
     SHOOT,
-    WEAPON_PICKUP
+    WEAPON_PICKUP,
+    GENERATE_PICKUP
 
 }
