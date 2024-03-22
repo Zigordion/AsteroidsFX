@@ -1,0 +1,4 @@
+--patch-module
+DualshotWeapon=_
+--add-reads
+DualshotWeapon=ALL-UNNAMED

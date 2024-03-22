@@ -18,18 +18,24 @@ public class EventBroker {
     }
 
     public void addListener(IEventListener eventListener, EventType ... eventType){
-        for (EventType type : eventType) {
-            if(type == EventType.SHOOT){
-                System.out.println("added");
-            }
+        if(listenerTopicMap.containsKey(eventListener)){
+            List<EventType> listenerEvents = listenerTopicMap.get(eventListener);
+            listenerEvents.addAll(Arrays.asList(eventType));
+            listenerTopicMap.replace(eventListener,listenerEvents);
+        }else{
+            listenerTopicMap.put(eventListener, List.of(eventType));
         }
-        listenerTopicMap.put(eventListener, List.of(eventType));
     }
     public void removeListener(IEventListener eventListener, EventType ... eventType){
         List<EventType> listenerEvents = listenerTopicMap.get(eventListener);
-        for (EventType listenerEvent : listenerEvents) {
-            listenerEvents.remove(listenerEvent);
+        for (EventType listenerEvent : listenerTopicMap.get(eventListener)) {
+            for (EventType type : eventType) {
+                if(listenerEvent == type){
+                    listenerEvents.remove(listenerEvent);
+                }
+            }
         }
+        listenerTopicMap.replace(eventListener,listenerEvents);
         if(listenerEvents.isEmpty()){
             listenerTopicMap.remove(eventListener);
         }
@@ -39,9 +45,6 @@ public class EventBroker {
         for (IEventListener eventListener : listenerTopicMap.keySet()) {
             if(listenerTopicMap.get(eventListener).contains(eventType)){
                 eventListener.onTrigger(eventType, entities);
-                if(eventType == EventType.SHOOT){
-                    System.out.println("sh");
-                }
             }
         }
     }
