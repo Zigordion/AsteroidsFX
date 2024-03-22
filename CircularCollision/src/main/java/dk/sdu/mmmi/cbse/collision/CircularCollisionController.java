@@ -25,7 +25,7 @@ public class CircularCollisionController implements IPostEntityProcessingService
         Collision controller could then check if entity is instance of collisionDetector, this would prevent violation
         of the Liskov's Substitution principle. It would however increase the amount of dependencies
          */
-
+        outerLoop:
         for (Entity entity : world.getEntities() ) {
             double[] coords = entity.getPolygonCoordinates();
             double entityRadius = 0;
@@ -48,6 +48,7 @@ public class CircularCollisionController implements IPostEntityProcessingService
                     if(distance < entityRadius+otherRadius){
                         //collided
                         eventBroker.triggerEvent(EventType.COLLISION, entity,other);
+                        break outerLoop;
                     }
                 }
             }

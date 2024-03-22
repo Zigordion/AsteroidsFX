@@ -48,7 +48,6 @@ public class WeaponControlSystem implements IGamePluginService, IEntityProcessin
 
     @Override
     public void onTrigger(EventType eventType, Entity... entities) {
-        System.out.println("shoot");
         if(eventType.equals(EventType.SHOOT)){
             for (Entity entity : entities) {
                 shoot(gameData,world,entity);
@@ -75,6 +74,5 @@ public class WeaponControlSystem implements IGamePluginService, IEntityProcessin
     @Override
     public void stop(GameData gameData, World world) {
         EventBroker.getInstance().removeListener(this, EventType.WEAPON_PICKUP, EventType.SHOOT);
-    System.out.println("rm");
     }
 }

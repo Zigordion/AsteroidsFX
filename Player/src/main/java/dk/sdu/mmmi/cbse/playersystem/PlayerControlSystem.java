@@ -27,7 +27,6 @@ public class PlayerControlSystem implements IEntityProcessingService {
 
             if (gameData.getKeys().isPressed(GameKeys.SPACE)) { //doesn't get called if up and left is clicked, only laptop
                 EventBroker.getInstance().triggerEvent(EventType.SHOOT,player);
-                System.out.println("test");
             }
             validatePlayerPosition(gameData, player);
         }
