@@ -13,19 +13,13 @@ public class Enemy extends Entity implements IEventListener {
 
     @Override
     public void onTrigger(EventType eventType, Entity ... entities) {
-        for (Entity entity : entities) {
-            if(entity!= this){
-                continue;
-            }
-            for (Entity other : entities) {
-                if(other instanceof Interactable){
-                    return;
-                }
+        if(entities[0] == this){
+            if(entities[1] instanceof Enemy){
+                return;
             }
             setActive(false);
             EventBroker.getInstance().triggerEvent(EventType.GENERATE_PICKUP,this);
             EventBroker.getInstance().removeListener(this);
-            break;
         }
     }
 

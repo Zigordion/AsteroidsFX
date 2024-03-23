@@ -40,21 +40,13 @@ public class Asteroid extends Entity implements IEventListener {
 
     @Override
     public void onTrigger(EventType eventType, Entity ... entities) {
-        for (Entity entity : entities)  {
-            if(entity != this){
-                continue;
+        if(entities[0] == this && entities[1] instanceof Bullet){
+            if(size/2.0>1.5){
+                asteroidCreator.createSmallerAsteroid(this);
             }
-            for (Entity other : entities) {
-                if(other instanceof Bullet){
-                    if(size/2.0>1.5){
-                        asteroidCreator.createSmallerAsteroid(this);
-                    }
-                    EventBroker.getInstance().removeListener(this);
-                    EventBroker.getInstance().triggerEvent(EventType.ASTEROID_DESTROYED,this);
-                    setActive(false);
-                    return;
-                }
-            }
+            EventBroker.getInstance().removeListener(this);
+            EventBroker.getInstance().triggerEvent(EventType.ASTEROID_DESTROYED,this);
+            setActive(false);
         }
     }
 

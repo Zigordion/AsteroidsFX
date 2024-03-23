@@ -15,12 +15,9 @@ public class Bullet extends Entity implements IEventListener {
     }
     @Override
     public void onTrigger(EventType eventType, Entity... entities) {
-        for (Entity entity : entities) {
-            if(entity == this){
-                setActive(false);
-                EventBroker.getInstance().removeListener(this);
-                break;
-            }
+        if(entities[0] == this){
+            setActive(false);
+            EventBroker.getInstance().removeListener(this);
         }
     }
 }
