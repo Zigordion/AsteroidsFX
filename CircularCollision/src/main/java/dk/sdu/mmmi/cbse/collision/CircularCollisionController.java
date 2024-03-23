@@ -35,7 +35,9 @@ public class CircularCollisionController implements IPostEntityProcessingService
                 entityRadius = Math.max(tmpRadius,entityRadius);
             }
             for (Entity other : world.getEntities() ) {
-
+                if(other instanceof Interactable){
+                    continue;
+                }
                 if(entity.getClass() != other.getClass()){
                     //Check collision
                     double[] otherCoords = other.getPolygonCoordinates();
@@ -50,8 +52,7 @@ public class CircularCollisionController implements IPostEntityProcessingService
                     if(distance < entityRadius+otherRadius){
                         //collided
                         eventBroker.triggerEvent(EventType.COLLISION, entity, other);
-                        eventBroker.triggerEvent(EventType.COLLISION,other,entity);
-                        break outerLoop;
+                        continue outerLoop;
                     }
                 }
             }

@@ -6,9 +6,10 @@ import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.Interactable;
 
 public class Enemy extends Entity implements IEventListener {
+    private final EventBroker eventBroker =  EventBroker.getInstance();
 
     public Enemy(){
-        EventBroker.getInstance().addListener(this, EventType.COLLISION);
+        eventBroker.addListener(this, EventType.COLLISION);
     }
 
     @Override
@@ -17,9 +18,9 @@ public class Enemy extends Entity implements IEventListener {
             if(entities[1] instanceof Enemy){
                 return;
             }
+            eventBroker.triggerEvent(EventType.GENERATE_PICKUP,this);
+            eventBroker.removeListener(this);
             setActive(false);
-            EventBroker.getInstance().triggerEvent(EventType.GENERATE_PICKUP,this);
-            EventBroker.getInstance().removeListener(this);
         }
     }
 

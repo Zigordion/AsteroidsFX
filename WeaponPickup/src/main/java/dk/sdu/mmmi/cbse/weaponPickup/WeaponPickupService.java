@@ -9,7 +9,7 @@ public class WeaponPickupService implements PickupSPI {
     @Override
     public Pickup createPickup(Entity entity) {
         WeaponPickup weaponPickup = new WeaponPickup();
-        weaponPickup.setRGB(20,255,20);
+        weaponPickup.setRGB(20,100,200);
         weaponPickup.setX(entity.getX());
         weaponPickup.setY(entity.getY());
         weaponPickup.setPolygonCoordinates(-4,-4, -4,4, 4,4, 4,-4);

@@ -9,8 +9,9 @@ public class Asteroid extends Entity implements IEventListener {
     private double xDirection;
     private final double size;
     private final IAsteroidCreator asteroidCreator;
+    private final EventBroker eventBroker =  EventBroker.getInstance();
     public Asteroid(double size, IAsteroidCreator asteroidCreator){
-        EventBroker.getInstance().addListener(this,EventType.COLLISION);
+        eventBroker.addListener(this,EventType.COLLISION);
         this.size = size;
         this.asteroidCreator = asteroidCreator;
     }
@@ -44,8 +45,8 @@ public class Asteroid extends Entity implements IEventListener {
             if(size/2.0>1.5){
                 asteroidCreator.createSmallerAsteroid(this);
             }
-            EventBroker.getInstance().removeListener(this);
-            EventBroker.getInstance().triggerEvent(EventType.ASTEROID_DESTROYED,this);
+            eventBroker.removeListener(this);
+            eventBroker.triggerEvent(EventType.ASTEROID_DESTROYED,this);
             setActive(false);
         }
     }

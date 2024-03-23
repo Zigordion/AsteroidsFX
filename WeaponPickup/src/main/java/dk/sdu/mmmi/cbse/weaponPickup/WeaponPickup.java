@@ -7,22 +7,16 @@ import dk.sdu.mmmi.cbse.pickup.Pickup;
 import dk.sdu.mmmi.cbse.playersystem.Player;
 
 public class WeaponPickup extends Pickup {
+    private final EventBroker eventBroker =  EventBroker.getInstance();
+
     public WeaponPickup(){
-        EventBroker.getInstance().addListener(this, EventType.COLLISION);
+        eventBroker.addListener(this, EventType.COLLISION);
     }
     @Override
     public void onTrigger(EventType eventType, Entity... entities) {
-        for (Entity entity : entities) {
-            if(entity != this){
-                continue;
-            }
-            for (Entity other : entities) {
-                if(other instanceof Player){
-                    EventBroker.getInstance().triggerEvent(EventType.WEAPON_PICKUP,other);
-                    setActive(false);
-                    return;
-                }
-            }
+        if(entities[0] == this && entities[1] instanceof Player){
+            eventBroker.triggerEvent(EventType.WEAPON_PICKUP, entities[1]);
+            setActive(false);
         }
     }
 }
