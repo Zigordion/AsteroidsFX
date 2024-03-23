@@ -9,7 +9,8 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>Health</artifactId>
+    <groupId>dk.sdu.mmmi.cbse.healthpickup</groupId>
+    <artifactId>HealthPickup</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -18,8 +19,14 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>dk.sdu.mmmi.cbse.pickup</groupId>
+            <artifactId>Pickup</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>dk.sdu.mmmi.cbse</groupId>
-            <artifactId>Common</artifactId>
+            <artifactId>Player</artifactId>
             <version>1.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

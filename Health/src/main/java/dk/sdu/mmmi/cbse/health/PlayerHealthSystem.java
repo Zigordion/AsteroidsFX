@@ -4,7 +4,7 @@ import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
-import dk.sdu.mmmi.cbse.playersystem.Player;
+
 
 public class PlayerHealthSystem implements IUIProcessingService, IGamePluginService, IEventListener {
     /*
@@ -28,8 +28,8 @@ public class PlayerHealthSystem implements IUIProcessingService, IGamePluginServ
         */
     private static int playerHealth;
     private final int maxPlayerHealth = 3;
-    private UiTextElement playerHealthTitle = new UiTextElement("Lives", 0,0,255,255,255);
-    private UiTextElement playerHealthIndicator = new UiTextElement("",0,0,255,255,255);
+    private final UiTextElement playerHealthTitle = new UiTextElement("Lives", 0,0,255,255,255);
+    private final UiTextElement playerHealthIndicator = new UiTextElement("",0,0,255,255,255);
 
     private static UiTextElement gameOverText;
     private static GameData GameData;
@@ -55,7 +55,9 @@ public class PlayerHealthSystem implements IUIProcessingService, IGamePluginServ
     @Override
     public void start(GameData gameData, World world) {
         playerHealth = maxPlayerHealth;
-        EventBroker.getInstance().addListener(this,EventType.PLAYER_HIT);
+        EventBroker.getInstance().addListener(this,
+                EventType.PLAYER_HIT,
+                EventType.HEALTH_PICKUP);
     }
 
     @Override
@@ -65,18 +67,20 @@ public class PlayerHealthSystem implements IUIProcessingService, IGamePluginServ
 
     @Override
     public void onTrigger(EventType eventType, Entity ... entities) {
-        for (Entity entity : entities) {
-            if(entity instanceof Player player){
-                playerHealth--;
-                player.setX(GameData.getDisplayWidth()/2.0);
-                player.setY(GameData.getDisplayHeight()/2.0);
-                if(playerHealth<=0){
-                    player.setActive(false);
-                    EventBroker.getInstance().removeListener(player);
-                    gameOverText = new UiTextElement("Game Over",0,0,255,0,0);
-                }
+        if(eventType == EventType.PLAYER_HIT){
+            playerHealth--;
+            entities[0].setX(GameData.getDisplayWidth()/2.0);
+            entities[0].setY(GameData.getDisplayHeight()/2.0);
+            if(playerHealth<=0){
+                entities[0].setActive(false);
+                gameOverText = new UiTextElement("Game Over",0,0,255,0,0);
             }
         }
+        if(eventType == EventType.HEALTH_PICKUP){
+            if(playerHealth == maxPlayerHealth){
+                return;
+            }
+            playerHealth++;
+        }
     }
-
 }

@@ -6,6 +6,7 @@ public enum EventType {
     PLAYER_HIT,
     SHOOT,
     WEAPON_PICKUP,
-    GENERATE_PICKUP
+    GENERATE_PICKUP,
+    HEALTH_PICKUP
 
 }

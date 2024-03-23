@@ -13,14 +13,16 @@ import static java.util.stream.Collectors.toList;
 public class PickupGeneratorController implements IEventListener, IGamePluginService {
 
     private static World world;
+    private double pickupGenerationChance = 0.3;
     @Override
     public void onTrigger(EventType eventType, Entity... entities) {
         List<? extends PickupSPI> pickupGenerators = getPickupSPI();
         Random random = new Random();
-        int index = random.nextInt(0,pickupGenerators.size());
-        Pickup pickup = pickupGenerators.get(index).createPickup(entities[0]);
-        world.addEntity(pickup);
-        System.out.println("generated pickup:" + pickup);
+        if(random.nextDouble() < pickupGenerationChance){
+            int index = random.nextInt(0,pickupGenerators.size());
+            Pickup pickup = pickupGenerators.get(index).createPickup(entities[0]);
+            world.addEntity(pickup);
+        }
         //Do random check for if a pickup should be generated.
         //find all available pickup types
         //spawn them at the first entity's location
