@@ -24,6 +24,9 @@
         <module>Weapon</module>
         <module>MultishotWeapon</module>
         <module>DualshotWeapon</module>
+        <module>Pickup</module>
+        <module>WeaponPickup</module>
+        <module>HealthPickup</module>
     </modules>
     <properties>
         <java>java</java>

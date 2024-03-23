@@ -3,21 +3,24 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.EventBroker;
 import dk.sdu.mmmi.cbse.common.data.EventType;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
+import dk.sdu.mmmi.cbse.common.services.Interactable;
 
 public class Enemy extends Entity implements IEventListener {
+    private final EventBroker eventBroker =  EventBroker.getInstance();
 
     public Enemy(){
-        EventBroker.getInstance().addListener(this, EventType.COLLISION);
+        eventBroker.addListener(this, EventType.COLLISION);
     }
 
     @Override
     public void onTrigger(EventType eventType, Entity ... entities) {
-        for (Entity entity : entities) {
-            if(entity == this){
-                setActive(false);
-                EventBroker.getInstance().removeListener(this);
-                break;
+        if(entities[0] == this){
+            if(entities[1] instanceof Enemy){
+                return;
             }
+            eventBroker.triggerEvent(EventType.GENERATE_PICKUP,this);
+            eventBroker.removeListener(this);
+            setActive(false);
         }
     }
 

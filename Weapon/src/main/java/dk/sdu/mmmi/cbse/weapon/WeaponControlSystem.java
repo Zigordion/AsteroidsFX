@@ -32,8 +32,6 @@ public class WeaponControlSystem implements IGamePluginService, IEntityProcessin
         return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
 
-
-    //Pick functionality missing, this should listen to the weapon pickup entity on hit
     public void setCurrentWeapon(Entity shooter) {
         List<? extends WeaponSPI> weaponSPIs = getWeaponSPI();
         Random random = new Random();
