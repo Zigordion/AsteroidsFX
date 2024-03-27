@@ -31,11 +31,24 @@ public class GameManager {
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private final Map<UiTextElement,Text> elementTextMap = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
+    private final List<IEntityProcessingService> entityProcessingServices;
+    private final List<IGamePluginService> gamePluginServices;
+    private final List<IUIProcessingService> uiProcessingServices;
+    private final List<IPostEntityProcessingService> postEntityProcessingServices;
+    private final List<ILateStartService> lateStartServices;
 
-    private final ServiceLocator serviceLocator;
-    public GameManager (ServiceLocator serviceLocator){
-        this.serviceLocator = serviceLocator;
+    public GameManager(List<IEntityProcessingService> entityProcessingServices,
+                       List<IGamePluginService> gamePluginServices,
+                       List<IUIProcessingService> uiProcessingServices,
+                       List<IPostEntityProcessingService> postEntityProcessingServices,
+                       List<ILateStartService> lateStartServices) {
+        this.entityProcessingServices = entityProcessingServices;
+        this.gamePluginServices = gamePluginServices;
+        this.uiProcessingServices = uiProcessingServices;
+        this.postEntityProcessingServices = postEntityProcessingServices;
+        this.lateStartServices = lateStartServices;
     }
+
 
     public void start(Stage window) throws Exception {
 
@@ -115,7 +128,7 @@ public class GameManager {
         // Update
 
         //Getters should only be called once, as it creates new instances of the service, resulting in variables being reset.
-
+        System.out.println(getEntityProcessingServices());
         for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
             System.out.println("test");
             entityProcessorService.process(deltaTime, gameData, world);
@@ -184,11 +197,11 @@ public class GameManager {
     }
 
     public Collection<? extends IUIProcessingService> getIuiProcessingServiceCollection() {
-        return serviceLocator.uiProcessingServices();
+        return uiProcessingServices;
     }
 
     public Collection<? extends IGamePluginService> getGamePluginServices() {
-        return serviceLocator.gamePluginServices();
+        return gamePluginServices;
     }
 
     public List<IEntityProcessingService> getEntityProcessingServices() {
@@ -196,10 +209,10 @@ public class GameManager {
     }
 
     public Collection<? extends IPostEntityProcessingService> getiPostEntityProcessingServices() {
-        return serviceLocator.postEntityProcessingServices();
+        return postEntityProcessingServices;
     }
 
     public Collection<? extends ILateStartService> getiLateStartServices() {
-        return serviceLocator.lateStartServices();
+        return lateStartServices;
     }
 }
