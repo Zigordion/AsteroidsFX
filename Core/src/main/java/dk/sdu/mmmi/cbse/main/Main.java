@@ -13,9 +13,13 @@ public class Main extends Application {
     public void start(Stage window) throws Exception {
 
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(ServiceConfig.class);
-        GameManager game = ctx.getBean(GameManager.class);
-        game.start(window);
-        game.render();
+        GameManager gameManager = ctx.getBean(GameManager.class);
+        for (String beanName : ctx.getBeanDefinitionNames()) {
+            System.out.println(beanName);
+        }
+
+        gameManager.start(window);
+        gameManager.render();
     }
 
 }

@@ -13,35 +13,11 @@ public class ServiceConfig {
     public ServiceConfig(){}
     @Bean
     public GameManager gameManager(){
-        return new GameManager(gamePluginServices(),
-                entityProcessingServiceList(),
-                postEntityProcessingServices(),
-                uiProcessingServices(),
-                lateStartServices());
-    }
-
-    @Bean
-    public List<IEntityProcessingService> entityProcessingServiceList(){
-        return ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-    }
-
-    @Bean
-    public List<IGamePluginService> gamePluginServices() {
-        return ServiceLoader.load(IGamePluginService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-    }
-
-    @Bean
-    public List<IPostEntityProcessingService> postEntityProcessingServices() {
-        return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-    }
-
-    @Bean
-    public List<IUIProcessingService> uiProcessingServices() {
-        return ServiceLoader.load(IUIProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        return new GameManager(serviceLocator());
     }
     @Bean
-    public List<ILateStartService> lateStartServices() {
-        return ServiceLoader.load(ILateStartService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+    public ServiceLocator serviceLocator(){
+        return new ServiceLocator();
     }
 
 }

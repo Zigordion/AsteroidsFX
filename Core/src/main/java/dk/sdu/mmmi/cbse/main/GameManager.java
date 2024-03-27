@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import static java.util.stream.Collectors.toList;
 
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -33,21 +32,9 @@ public class GameManager {
     private final Map<UiTextElement,Text> elementTextMap = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
 
-    private final Collection<? extends IUIProcessingService> iuiProcessingServiceCollection;
-    private final Collection<? extends IGamePluginService> iGamePluginServices;
-    private final Collection<? extends  IEntityProcessingService> iEntityProcessingServices;
-    private final Collection<? extends  IPostEntityProcessingService> iPostEntityProcessingServices;
-    private final Collection<? extends  ILateStartService> iLateStartServices;
-    public GameManager (List<IGamePluginService> iGamePluginServices,
-                        List<IEntityProcessingService> iEntityProcessingServices,
-                        List<IPostEntityProcessingService> iPostEntityProcessingServices,
-                        List<IUIProcessingService> iuiProcessingServiceCollection,
-                        List<ILateStartService> iLateStartServices){
-        this.iGamePluginServices = iGamePluginServices;
-        this.iEntityProcessingServices = iEntityProcessingServices;
-        this.iPostEntityProcessingServices = iPostEntityProcessingServices;
-        this.iuiProcessingServiceCollection = iuiProcessingServiceCollection;
-        this.iLateStartServices = iLateStartServices;
+    private final ServiceLocator serviceLocator;
+    public GameManager (ServiceLocator serviceLocator){
+        this.serviceLocator = serviceLocator;
     }
 
     public void start(Stage window) throws Exception {
@@ -59,7 +46,7 @@ public class GameManager {
         Scene scene = initiateScene();
 
         // Lookup all Game Plugins using ServiceLoader
-        for (IGamePluginService iGamePlugin : getiGamePluginServices()) {
+        for (IGamePluginService iGamePlugin : getGamePluginServices()) {
             iGamePlugin.start(gameData, world);
         }
         draw();
@@ -129,7 +116,8 @@ public class GameManager {
 
         //Getters should only be called once, as it creates new instances of the service, resulting in variables being reset.
 
-        for (IEntityProcessingService entityProcessorService : getiEntityProcessingServices()) {
+        for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
+            System.out.println("test");
             entityProcessorService.process(deltaTime, gameData, world);
         }
         for (IPostEntityProcessingService postEntityProcessorService : getiPostEntityProcessingServices()) {
@@ -196,22 +184,22 @@ public class GameManager {
     }
 
     public Collection<? extends IUIProcessingService> getIuiProcessingServiceCollection() {
-        return iuiProcessingServiceCollection;
+        return serviceLocator.uiProcessingServices();
     }
 
-    public Collection<? extends IGamePluginService> getiGamePluginServices() {
-        return iGamePluginServices;
+    public Collection<? extends IGamePluginService> getGamePluginServices() {
+        return serviceLocator.gamePluginServices();
     }
 
-    public Collection<? extends IEntityProcessingService> getiEntityProcessingServices() {
-        return iEntityProcessingServices;
+    public List<IEntityProcessingService> getEntityProcessingServices() {
+        return ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
 
     public Collection<? extends IPostEntityProcessingService> getiPostEntityProcessingServices() {
-        return iPostEntityProcessingServices;
+        return serviceLocator.postEntityProcessingServices();
     }
 
     public Collection<? extends ILateStartService> getiLateStartServices() {
-        return iLateStartServices;
+        return serviceLocator.lateStartServices();
     }
 }
