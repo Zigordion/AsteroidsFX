@@ -12,7 +12,7 @@ import static java.util.stream.Collectors.toList;
 public class ServiceConfig {
     public ServiceConfig(){}
     @Bean
-    public GameManager game(){
+    public GameManager gameManager(){
         return new GameManager(gamePluginServices(),
                 entityProcessingServiceList(),
                 postEntityProcessingServices(),

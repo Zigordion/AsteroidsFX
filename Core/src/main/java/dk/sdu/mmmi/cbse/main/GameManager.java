@@ -59,7 +59,7 @@ public class GameManager {
         Scene scene = initiateScene();
 
         // Lookup all Game Plugins using ServiceLoader
-        for (IGamePluginService iGamePlugin : iGamePluginServices) {
+        for (IGamePluginService iGamePlugin : getiGamePluginServices()) {
             iGamePlugin.start(gameData, world);
         }
         draw();
@@ -69,7 +69,7 @@ public class GameManager {
         window.setScene(scene);
         window.setTitle("ASTEROIDS");
         window.show();
-        for (ILateStartService lateStartService : iLateStartServices) {
+        for (ILateStartService lateStartService : getiLateStartServices()) {
             lateStartService.lateStart(gameData, world);
         }
     }
@@ -129,13 +129,13 @@ public class GameManager {
 
         //Getters should only be called once, as it creates new instances of the service, resulting in variables being reset.
 
-        for (IEntityProcessingService entityProcessorService : iEntityProcessingServices) {
+        for (IEntityProcessingService entityProcessorService : getiEntityProcessingServices()) {
             entityProcessorService.process(deltaTime, gameData, world);
         }
-        for (IPostEntityProcessingService postEntityProcessorService : iPostEntityProcessingServices) {
+        for (IPostEntityProcessingService postEntityProcessorService : getiPostEntityProcessingServices()) {
             postEntityProcessorService.postProcess(gameData, world);
         }
-        for (IUIProcessingService uiProcessingService : iuiProcessingServiceCollection) {
+        for (IUIProcessingService uiProcessingService : getIuiProcessingServiceCollection()) {
             uiProcessingService.processUI(gameData, gameUi);
         }
 
@@ -195,5 +195,23 @@ public class GameManager {
         }
     }
 
+    public Collection<? extends IUIProcessingService> getIuiProcessingServiceCollection() {
+        return iuiProcessingServiceCollection;
+    }
 
+    public Collection<? extends IGamePluginService> getiGamePluginServices() {
+        return iGamePluginServices;
+    }
+
+    public Collection<? extends IEntityProcessingService> getiEntityProcessingServices() {
+        return iEntityProcessingServices;
+    }
+
+    public Collection<? extends IPostEntityProcessingService> getiPostEntityProcessingServices() {
+        return iPostEntityProcessingServices;
+    }
+
+    public Collection<? extends ILateStartService> getiLateStartServices() {
+        return iLateStartServices;
+    }
 }
