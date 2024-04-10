@@ -6,9 +6,9 @@ import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
 
 
-public class scoreController implements IUIProcessingService, IEventListener {
+public class ScoreController implements IUIProcessingService, IEventListener {
     private static int score;
-    public scoreController(){
+    public ScoreController(){
         EventBroker.getInstance().addListener(this, EventType.ASTEROID_DESTROYED);
     }
     private final UiTextElement scoreUI = new UiTextElement("" + score,10,20,255,255,255);
