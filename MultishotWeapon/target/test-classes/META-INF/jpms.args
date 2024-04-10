@@ -1,0 +1,4 @@
+--patch-module
+MultishotWeapon=_
+--add-reads
+MultishotWeapon=ALL-UNNAMED

@@ -24,6 +24,4 @@ public class ScoreController implements IUIProcessingService, IEventListener {
         score++;
     }
 
-
-
 }

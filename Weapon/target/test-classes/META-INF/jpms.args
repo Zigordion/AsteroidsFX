@@ -1,0 +1,4 @@
+--patch-module
+Weapon=_
+--add-reads
+Weapon=ALL-UNNAMED
