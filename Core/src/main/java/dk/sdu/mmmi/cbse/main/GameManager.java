@@ -128,9 +128,7 @@ public class GameManager {
         // Update
 
         //Getters should only be called once, as it creates new instances of the service, resulting in variables being reset.
-        System.out.println(getEntityProcessingServices());
         for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
-            System.out.println("test");
             entityProcessorService.process(deltaTime, gameData, world);
         }
         for (IPostEntityProcessingService postEntityProcessorService : getiPostEntityProcessingServices()) {
