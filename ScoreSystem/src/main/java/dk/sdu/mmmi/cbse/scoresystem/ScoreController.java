@@ -6,15 +6,17 @@ import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
 
 
-public class scoreController implements IUIProcessingService, IEventListener {
+public class ScoreController implements IUIProcessingService, IEventListener {
     private static int score;
-    public scoreController(){
-        EventBroker.getInstance().addListener(this, EventType.ASTEROID_DESTROYED);
-    }
+    private boolean isInit = false;
     private final UiTextElement scoreUI = new UiTextElement("" + score,10,20,255,255,255);
 
     @Override
     public void processUI(GameData gameData, GameUi gameUi) {
+        if(!isInit){
+            gameData.getEventBroker().addListener(this, EventType.ASTEROID_DESTROYED);
+            isInit = true;
+        }
         scoreUI.setText("Destroyed asteroids: " + score);
         gameUi.addUiTextElement(scoreUI);
     }
@@ -23,12 +25,5 @@ public class scoreController implements IUIProcessingService, IEventListener {
     public void onTrigger(EventType eventType, Entity... entities) {
         score++;
     }
-
-
-
-    //some method which increments asteroid score when the asteroid's onHit method is called by a bullet sent by a player
-    //listen to event on asteroid
-
-
 
 }

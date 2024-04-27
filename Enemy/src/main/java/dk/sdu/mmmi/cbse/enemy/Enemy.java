@@ -6,9 +6,10 @@ import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.Interactable;
 
 public class Enemy extends Entity implements IEventListener {
-    private final EventBroker eventBroker =  EventBroker.getInstance();
+    private final EventBroker eventBroker;
 
-    public Enemy(){
+    public Enemy(EventBroker eventBroker){
+        this.eventBroker = eventBroker;
         eventBroker.addListener(this, EventType.COLLISION);
     }
 

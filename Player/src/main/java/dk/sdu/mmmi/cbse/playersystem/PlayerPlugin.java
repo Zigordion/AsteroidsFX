@@ -18,7 +18,7 @@ public class PlayerPlugin implements IGamePluginService {
     }
 
     private Entity createPlayerShip(GameData gameData) {
-        Entity playerShip = new Player();
+        Entity playerShip = new Player(gameData.getEventBroker());
         playerShip.setRGB(255,255,255);
         playerShip.setActive(true);
         playerShip.setPolygonCoordinates(-5,-5, 10,0, -5,5);

@@ -25,6 +25,11 @@ public class GameData {
     public int getDisplayHeight() {
         return displayHeight;
     }
+    private final EventBroker eventBroker = new EventBroker();
+
+    public EventBroker getEventBroker() {
+        return eventBroker;
+    }
 
 
 }

@@ -8,14 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class EventBroker {
 
     private final Map<IEventListener, List<EventType>> listenerTopicMap = new ConcurrentHashMap<>();
-    private EventBroker(){}
-    private static EventBroker instance;
-    public static EventBroker getInstance(){
-        if(instance == null){
-            instance = new EventBroker();
-        }
-        return instance;
-    }
 
     public void addListener(IEventListener eventListener, EventType ... eventType){
         if(listenerTopicMap.containsKey(eventListener)){

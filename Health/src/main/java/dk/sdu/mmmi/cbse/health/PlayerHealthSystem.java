@@ -55,14 +55,14 @@ public class PlayerHealthSystem implements IUIProcessingService, IGamePluginServ
     @Override
     public void start(GameData gameData, World world) {
         playerHealth = maxPlayerHealth;
-        EventBroker.getInstance().addListener(this,
+        gameData.getEventBroker().addListener(this,
                 EventType.PLAYER_HIT,
                 EventType.HEALTH_PICKUP);
     }
 
     @Override
     public void stop(GameData gameData, World world) {
-        EventBroker.getInstance().removeListener(this);
+        gameData.getEventBroker().removeListener(this);
     }
 
     @Override

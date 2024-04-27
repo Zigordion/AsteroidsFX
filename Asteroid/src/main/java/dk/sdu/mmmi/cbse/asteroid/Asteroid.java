@@ -9,8 +9,9 @@ public class Asteroid extends Entity implements IEventListener {
     private double xDirection;
     private final double size;
     private final IAsteroidCreator asteroidCreator;
-    private final EventBroker eventBroker =  EventBroker.getInstance();
-    public Asteroid(double size, IAsteroidCreator asteroidCreator){
+    private final EventBroker eventBroker;
+    public Asteroid(double size, IAsteroidCreator asteroidCreator, EventBroker eventBroker){
+        this.eventBroker = eventBroker;
         eventBroker.addListener(this,EventType.COLLISION);
         this.size = size;
         this.asteroidCreator = asteroidCreator;

@@ -7,9 +7,10 @@ import dk.sdu.mmmi.cbse.pickup.Pickup;
 import dk.sdu.mmmi.cbse.playersystem.Player;
 
 public class WeaponPickup extends Pickup {
-    private final EventBroker eventBroker =  EventBroker.getInstance();
+    private final EventBroker eventBroker;
 
-    public WeaponPickup(){
+    public WeaponPickup(EventBroker eventBroker){
+        this.eventBroker = eventBroker;
         eventBroker.addListener(this, EventType.COLLISION);
     }
     @Override

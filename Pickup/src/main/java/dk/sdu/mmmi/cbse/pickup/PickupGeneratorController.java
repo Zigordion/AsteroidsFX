@@ -13,14 +13,15 @@ import static java.util.stream.Collectors.toList;
 public class PickupGeneratorController implements IEventListener, IGamePluginService {
 
     private static World world;
-    private double pickupGenerationChance = 0.3;
+    private final double pickupGenerationChance = 0.3;
+    private EventBroker eventBroker;
     @Override
     public void onTrigger(EventType eventType, Entity... entities) {
         List<? extends PickupSPI> pickupGenerators = getPickupSPI();
         Random random = new Random();
         if(random.nextDouble() < pickupGenerationChance){
             int index = random.nextInt(0,pickupGenerators.size());
-            Pickup pickup = pickupGenerators.get(index).createPickup(entities[0]);
+            Pickup pickup = pickupGenerators.get(index).createPickup(entities[0], eventBroker);
             world.addEntity(pickup);
         }
         //Do random check for if a pickup should be generated.
@@ -42,11 +43,12 @@ public class PickupGeneratorController implements IEventListener, IGamePluginSer
     @Override
     public void start(GameData gameData, World world) {
         PickupGeneratorController.world = world;
-        EventBroker.getInstance().addListener(this,EventType.GENERATE_PICKUP);
+        eventBroker = gameData.getEventBroker();
+        eventBroker.addListener(this,EventType.GENERATE_PICKUP);
     }
 
     @Override
     public void stop(GameData gameData, World world) {
-        EventBroker.getInstance().removeListener(this,EventType.GENERATE_PICKUP);
+        eventBroker.removeListener(this,EventType.GENERATE_PICKUP);
     }
 }

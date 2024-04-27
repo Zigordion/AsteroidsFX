@@ -10,9 +10,10 @@ import dk.sdu.mmmi.cbse.common.services.IEventListener;
  * @author corfixen
  */
 public class Bullet extends Entity implements IEventListener {
-    private final EventBroker eventBroker =  EventBroker.getInstance();
+    private final EventBroker eventBroker;
 
-    public Bullet(){
+    public Bullet(EventBroker eventBroker){
+        this.eventBroker = eventBroker;
         eventBroker.addListener(this,EventType.COLLISION);
     }
     @Override

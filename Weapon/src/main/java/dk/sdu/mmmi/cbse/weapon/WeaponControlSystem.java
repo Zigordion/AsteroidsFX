@@ -66,11 +66,11 @@ public class WeaponControlSystem implements IGamePluginService, IEntityProcessin
 
     @Override
     public void start(GameData gameData, World world) {
-        EventBroker.getInstance().addListener(this, EventType.SHOOT, EventType.WEAPON_PICKUP);
+        gameData.getEventBroker().addListener(this, EventType.SHOOT, EventType.WEAPON_PICKUP);
     }
 
     @Override
     public void stop(GameData gameData, World world) {
-        EventBroker.getInstance().removeListener(this, EventType.WEAPON_PICKUP, EventType.SHOOT);
+        gameData.getEventBroker().removeListener(this, EventType.WEAPON_PICKUP, EventType.SHOOT);
     }
 }

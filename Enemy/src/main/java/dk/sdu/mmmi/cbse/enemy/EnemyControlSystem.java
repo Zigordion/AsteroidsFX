@@ -36,7 +36,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
                 enemy.setX(gameData.getDisplayWidth()-1);
             }
             if (shootTimer <= 0) {
-                EventBroker.getInstance().triggerEvent(EventType.SHOOT,enemy);
+                gameData.getEventBroker().triggerEvent(EventType.SHOOT,enemy);
             }
         }
         if (shootTimer <= 0) {
@@ -45,7 +45,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
     }
 
     public Entity createEnemy(GameData gameData) {
-        Entity enemy = new Enemy();
+        Entity enemy = new Enemy(gameData.getEventBroker());
         enemy.setRGB(128,0,0);
         enemy.setPolygonCoordinates(-5, -5, 10, 5, -5, 5, 10, -5);
         enemy.setX(random.nextDouble(5, gameData.getDisplayWidth() - 5));

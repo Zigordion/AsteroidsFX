@@ -1,6 +1,7 @@
 package dk.sdu.mmmi.cbse.asteroid;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
+import dk.sdu.mmmi.cbse.common.data.EventBroker;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
@@ -13,8 +14,10 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
 
     private final Random random = new Random();
     private World world;
+    private EventBroker eventBroker;
     @Override
     public void process(double deltaTime, GameData gameData, World world) {
+        eventBroker = gameData.getEventBroker();
         timer -= 1; //should include delta time
         this.world = world;
         if (timer <= 0) {
@@ -41,7 +44,7 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
     }
 
     private Entity createNewAsteroid(GameData gameData){
-        Asteroid asteroid = new Asteroid(random.nextDouble(4,7), this);
+        Asteroid asteroid = new Asteroid(random.nextDouble(4,7), this, eventBroker);
         asteroid.setRGB(140,140,140);
         asteroid.setPolygonCoordinates(
                 -8,0,
@@ -92,7 +95,7 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
         int asteroidsPrDestruction = 2;
         for (int i = 0; i < asteroidsPrDestruction; i++) {
             //Gets called twice for some reason
-            Asteroid asteroid = new Asteroid(prevAsteroid.getSize() * newSizeModifier,this);
+            Asteroid asteroid = new Asteroid(prevAsteroid.getSize() * newSizeModifier,this, eventBroker);
             asteroid.setRGB(prevAsteroid.getRedValue(),prevAsteroid.getGreenValue(),prevAsteroid.getBlueValue());
             asteroid.setPolygonCoordinates(newPolygons);
             asteroid.setX(prevAsteroid.getX());
