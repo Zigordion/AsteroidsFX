@@ -36,7 +36,6 @@ public class EnemyControlSystem implements IEntityProcessingService {
                 enemy.setX(gameData.getDisplayWidth()-1);
             }
             if (shootTimer <= 0) {
-                System.out.println(EventBroker.getInstance());
                 EventBroker.getInstance().triggerEvent(EventType.SHOOT,enemy);
             }
         }
