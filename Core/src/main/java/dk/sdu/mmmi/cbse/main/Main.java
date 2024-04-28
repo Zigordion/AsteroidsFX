@@ -3,11 +3,15 @@ package dk.sdu.mmmi.cbse.main;
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.*;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.ServiceLoader;
+import java.lang.module.Configuration;
+import java.lang.module.ModuleDescriptor;
+import java.lang.module.ModuleFinder;
+import java.lang.module.ModuleReference;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import static java.util.stream.Collectors.toList;
+import java.util.stream.Collectors;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -35,10 +39,41 @@ public class Main extends Application {
     private Collection<? extends IUIProcessingService> iuiProcessingServiceCollection;
     private Collection<? extends  IEntityProcessingService> iEntityProcessingServices;
     private Collection<? extends  IPostEntityProcessingService> iPostEntityProcessingServices;
+    private static final List<ModuleLayer> MODULE_LAYERS = new ArrayList<>();
+    private static ModuleLayer moduleLayer;
     public static void main(String[] args) {
+//        initModules();
+        moduleLayer = createLayer();
         launch(Main.class);
     }
+//    private static void initModules(){
+//        Path projectRoot = Paths.get("plugins");
+//        ModuleFinder moduleFinder = ModuleFinder.of(projectRoot);
+//
+//        moduleFinder.findAll().stream().map(ModuleReference::descriptor).map(ModuleDescriptor::name)
+//                .map(module -> createLayer(moduleFinder, module)).forEach(MODULE_LAYERS::add);
+//    }
+    private static ModuleLayer createLayer() {
+        ModuleFinder finder = ModuleFinder.of(Paths.get("plugins"));
+        System.out.println(Paths.get("plugins"));
+        ModuleLayer parent = ModuleLayer.boot();
 
+        List<String> plugins = finder
+                .findAll()
+                .stream()
+                .map(ModuleReference::descriptor)
+                .map(ModuleDescriptor::name)
+                .collect(Collectors.toList());
+
+        Configuration cf = parent.configuration().resolve(finder, ModuleFinder.of(), plugins);
+        return parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
+    }
+//    private static ModuleLayer createLayer(ModuleFinder moduleFinder, String module) {
+//        System.out.println("Layer created from " + moduleFinder.toString() + " for module" + module);
+//        ModuleLayer parent = ModuleLayer.boot();
+//        Configuration cf = parent.configuration().resolve(moduleFinder, ModuleFinder.of(), Set.of(module));
+//        return parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
+//    }
     @Override
     public void start(Stage window) throws Exception {
 
@@ -188,21 +223,79 @@ public class Main extends Application {
         }
     }
 
+//    private Collection<? extends IGamePluginService> getPluginServices() {
+//        List<IGamePluginService> gamePluginServices = new ArrayList<>();
+//        for (ModuleLayer layer : MODULE_LAYERS) {
+//            ServiceLoader.load(layer, IGamePluginService.class).stream()
+//                    .map(ServiceLoader.Provider::get).forEach(gamePluginServices::add);
+//        }
+//        return gamePluginServices;
+//    }
+//    private Collection<? extends ILateStartService> getLateStartServices() {
+//        List<ILateStartService> lateStartServices = new ArrayList<>();
+//        for (ModuleLayer layer : MODULE_LAYERS) {
+//            ServiceLoader.load(layer, ILateStartService.class).stream()
+//                    .map(ServiceLoader.Provider::get).forEach(lateStartServices::add);
+//        }
+//        return lateStartServices;
+//    }
+//
+//    private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
+//        List<IEntityProcessingService> entityProcessingServices = new ArrayList<>();
+//        for (ModuleLayer layer : MODULE_LAYERS) {
+//            ServiceLoader.load(layer, IEntityProcessingService.class).stream()
+//                    .map(ServiceLoader.Provider::get).forEach(entityProcessingServices::add);
+//        }
+//        return entityProcessingServices;
+//    }
+//
+//    private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
+//        List<IPostEntityProcessingService> postEntityProcessingServices = new ArrayList<>();
+//        for (ModuleLayer layer : MODULE_LAYERS) {
+//            ServiceLoader.load(layer, IPostEntityProcessingService.class).stream()
+//                    .map(ServiceLoader.Provider::get).forEach(postEntityProcessingServices::add);
+//        }
+//        return postEntityProcessingServices;
+//    }
+//    private Collection<? extends IUIProcessingService> getIUIProcessingServices() {
+//        List<IUIProcessingService> uiProcessingServices = new ArrayList<>();
+//        for (ModuleLayer layer : MODULE_LAYERS) {
+//            ServiceLoader.load(layer, IUIProcessingService.class).stream()
+//                    .map(ServiceLoader.Provider::get).forEach(uiProcessingServices::add);
+//        }
+//        return uiProcessingServices;
+//    }
+
     private Collection<? extends IGamePluginService> getPluginServices() {
-        return ServiceLoader.load(IGamePluginService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        List<IGamePluginService> gamePluginServices = new ArrayList<>();
+        ServiceLoader.load(moduleLayer, IGamePluginService.class).stream()
+                    .map(ServiceLoader.Provider::get).forEach(gamePluginServices::add);
+        return gamePluginServices;
     }
     private Collection<? extends ILateStartService> getLateStartServices() {
-        return ServiceLoader.load(ILateStartService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        List<ILateStartService> lateStartServices = new ArrayList<>();
+        ServiceLoader.load(moduleLayer, ILateStartService.class).stream()
+                    .map(ServiceLoader.Provider::get).forEach(lateStartServices::add);
+        return lateStartServices;
     }
 
     private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
-        return ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        List<IEntityProcessingService> entityProcessingServices = new ArrayList<>();
+        ServiceLoader.load(moduleLayer, IEntityProcessingService.class).stream()
+                    .map(ServiceLoader.Provider::get).forEach(entityProcessingServices::add);
+        return entityProcessingServices;
     }
 
     private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
-        return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        List<IPostEntityProcessingService> postEntityProcessingServices = new ArrayList<>();
+        ServiceLoader.load(moduleLayer, IPostEntityProcessingService.class).stream()
+                    .map(ServiceLoader.Provider::get).forEach(postEntityProcessingServices::add);
+        return postEntityProcessingServices;
     }
     private Collection<? extends IUIProcessingService> getIUIProcessingServices() {
-        return ServiceLoader.load(IUIProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+        List<IUIProcessingService> uiProcessingServices = new ArrayList<>();
+        ServiceLoader.load(moduleLayer, IUIProcessingService.class).stream()
+                    .map(ServiceLoader.Provider::get).forEach(uiProcessingServices::add);
+        return uiProcessingServices;
     }
 }
