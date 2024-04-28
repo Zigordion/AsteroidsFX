@@ -41,37 +41,24 @@ public class Main extends Application {
     private static final List<ModuleLayer> MODULE_LAYERS = new ArrayList<>();
     private static ModuleLayer moduleLayer;
     public static void main(String[] args) {
-//        initModules();
         moduleLayer = createLayer();
         launch(Main.class);
     }
-//    private static void initModules(){
-//        Path projectRoot = Paths.get("plugins");
-//        ModuleFinder moduleFinder = ModuleFinder.of(projectRoot);
-//
-//        moduleFinder.findAll().stream().map(ModuleReference::descriptor).map(ModuleDescriptor::name)
-//                .map(module -> createLayer(moduleFinder, module)).forEach(MODULE_LAYERS::add);
-//    }
+
     private static ModuleLayer createLayer() {
         ModuleFinder finder = ModuleFinder.of(Paths.get("plugins"));
-        ModuleLayer parent = ModuleLayer.boot();
-
         List<String> plugins = finder
                 .findAll()
                 .stream()
                 .map(ModuleReference::descriptor)
                 .map(ModuleDescriptor::name)
                 .collect(Collectors.toList());
+        ModuleLayer parent = ModuleLayer.boot();
 
         Configuration cf = parent.configuration().resolve(finder, ModuleFinder.of(), plugins);
         return parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
     }
-//    private static ModuleLayer createLayer(ModuleFinder moduleFinder, String module) {
-//        System.out.println("Layer created from " + moduleFinder.toString() + " for module" + module);
-//        ModuleLayer parent = ModuleLayer.boot();
-//        Configuration cf = parent.configuration().resolve(moduleFinder, ModuleFinder.of(), Set.of(module));
-//        return parent.defineModulesWithOneLoader(cf, ClassLoader.getSystemClassLoader());
-//    }
+
     @Override
     public void start(Stage window) throws Exception {
 
@@ -150,11 +137,6 @@ public class Main extends Application {
     }
 
     private void update(double deltaTime) {
-
-        // Update
-
-        //Getters should only be called once, as it creates new instances of the service, resulting in variables being reset.
-
         for (IEntityProcessingService entityProcessorService : iEntityProcessingServices) {
             entityProcessorService.process(deltaTime, gameData, world);
         }
