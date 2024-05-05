@@ -1,19 +1,11 @@
 package dk.sdu.mmmi.cbse.asteroid;
-import dk.sdu.mmmi.cbse.common.bullet.Bullet;
 import dk.sdu.mmmi.cbse.common.data.Entity;
-import dk.sdu.mmmi.cbse.common.data.EventBroker;
-import dk.sdu.mmmi.cbse.common.data.EventType;
-import dk.sdu.mmmi.cbse.common.services.IEventListener;
 
-public class Asteroid extends Entity implements IEventListener {
+public class Asteroid extends Entity {
     private double xDirection;
     private final double size;
-    private final IAsteroidCreator asteroidCreator;
-    private final EventBroker eventBroker =  EventBroker.getInstance();
-    public Asteroid(double size, IAsteroidCreator asteroidCreator){
-        eventBroker.addListener(this,EventType.COLLISION);
+    public Asteroid(double size){
         this.size = size;
-        this.asteroidCreator = asteroidCreator;
     }
 
     public double getYDirection() {
@@ -38,18 +30,6 @@ public class Asteroid extends Entity implements IEventListener {
         return size;
     }
 
-
-    @Override
-    public void onTrigger(EventType eventType, Entity ... entities) {
-        if(entities[0] == this && entities[1] instanceof Bullet){
-            if(size/2.0>1.5){
-                asteroidCreator.createSmallerAsteroid(this);
-            }
-            eventBroker.removeListener(this);
-            eventBroker.triggerEvent(EventType.ASTEROID_DESTROYED,this);
-            setActive(false);
-        }
-    }
 
 
 }

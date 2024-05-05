@@ -7,22 +7,11 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 import java.util.Random;
 
-public class AsteroidControlSystem implements IEntityProcessingService, IAsteroidCreator {
-    private static double timer;
-    double maxTimer = 200;
-
-    private final Random random = new Random();
-    private World world;
+public class AsteroidControlSystem implements IEntityProcessingService{
+    private final AsteroidPlugin asteroidPlugin = new AsteroidPlugin();
     @Override
     public void process(double deltaTime, GameData gameData, World world) {
-        timer -= 1; //should include delta time
-        this.world = world;
-        if (timer <= 0) {
-            Entity asteroid = createNewAsteroid(gameData);
-
-            world.addEntity(asteroid);
-            timer = maxTimer;
-        }
+        asteroidPlugin.process(deltaTime, gameData, world);
         for (Entity entity : world.getEntities(Asteroid.class)) {
             if(entity instanceof Asteroid asteroid){
                 double speed = 0.6;
@@ -40,68 +29,6 @@ public class AsteroidControlSystem implements IEntityProcessingService, IAsteroi
         }
     }
 
-    private Entity createNewAsteroid(GameData gameData){
-        Asteroid asteroid = new Asteroid(random.nextDouble(4,7), this);
-        asteroid.setRGB(140,140,140);
-        asteroid.setPolygonCoordinates(
-                -8,0,
-                -6,3,
-                -4,4.75,
-                -1.25,4.6,
-                0.5,2,
-                4,1.3,
-                4,-1.5,
-                2,-2.78,
-                4,-4,
-                2,-5.25,
-                0,-6,
-                -4,-6,
-                -6,-3);
-        double[] polygons = asteroid.getPolygonCoordinates();
-        double[] newPolygons = new double[polygons.length];
-        for (int i = 0; i < polygons.length; i++) {
-            newPolygons[i] = polygons[i]* asteroid.getSize();
-        }
-        asteroid.setPolygonCoordinates(newPolygons);
-        asteroid.setX(random.nextDouble(5, gameData.getDisplayWidth() - 5));
-        asteroid.setY(random.nextDouble(5, gameData.getDisplayHeight() - 5));
-        asteroid.setActive(true);
-        double xPos = asteroid.getX();
-        double yPos = asteroid.getY();
-        double xDirection =(gameData.getDisplayWidth()/2.0)-xPos;
-        double yDirection =(gameData.getDisplayHeight()/2.0)-yPos;
-        double magnitude = Math.sqrt(xDirection*xDirection+yDirection*yDirection);
-        double normalizedX = xDirection/magnitude;
-        double normalizedY = yDirection/magnitude;
-        asteroid.setXDirection(normalizedX);
-        asteroid.setYDirection(normalizedY);
 
-        return asteroid;
-    }
 
-    @Override
-    public void createSmallerAsteroid(Asteroid prevAsteroid) {
-        double[] polygons = prevAsteroid.getPolygonCoordinates();
-        double[] newPolygons = new double[polygons.length];
-
-        double newSizeModifier = 0.7;
-        for (int i = 0; i < polygons.length; i++) {
-            newPolygons[i] = polygons[i]* newSizeModifier;
-        }
-
-        int asteroidsPrDestruction = 2;
-        for (int i = 0; i < asteroidsPrDestruction; i++) {
-            //Gets called twice for some reason
-            Asteroid asteroid = new Asteroid(prevAsteroid.getSize() * newSizeModifier,this);
-            asteroid.setRGB(prevAsteroid.getRedValue(),prevAsteroid.getGreenValue(),prevAsteroid.getBlueValue());
-            asteroid.setPolygonCoordinates(newPolygons);
-            asteroid.setX(prevAsteroid.getX());
-            asteroid.setY(prevAsteroid.getY());
-            asteroid.setYDirection(random.nextDouble(-1,1.001));
-            asteroid.setXDirection(random.nextDouble(-1,1.001));
-            asteroid.setActive(true);
-            //add to world somehow
-            world.addEntity(asteroid);
-        }
-    }
 }

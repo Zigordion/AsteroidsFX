@@ -23,18 +23,7 @@ public class PickupGeneratorController implements IEventListener, IGamePluginSer
             Pickup pickup = pickupGenerators.get(index).createPickup(entities[0]);
             world.addEntity(pickup);
         }
-        //Do random check for if a pickup should be generated.
-        //find all available pickup types
-        //spawn them at the first entity's location
     }
-
-    /*
-    A pickup is an entity which triggers an event
-    Health pickup: player health system listens to this and increases player health by 1
-    Weapon pickup: weapon control system generates a new random weapon for the entity that picked up the item.
-        Note that for that to work, the weapon system needs to know if the entity colliding with the pickup item is a
-        weapon user.
-     */
     private List<? extends PickupSPI> getPickupSPI() {
         return ServiceLoader.load(PickupSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
