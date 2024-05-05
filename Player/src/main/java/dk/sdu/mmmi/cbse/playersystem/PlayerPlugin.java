@@ -1,15 +1,26 @@
 package dk.sdu.mmmi.cbse.playersystem;
 
-import dk.sdu.mmmi.cbse.common.data.Entity;
-import dk.sdu.mmmi.cbse.common.data.GameData;
-import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.data.*;
+import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
-public class PlayerPlugin implements IGamePluginService {
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PlayerPlugin implements IGamePluginService, IEventListener {
 
     private Entity player;
-
-    public PlayerPlugin() {
+    private final EventBroker eventBroker =  EventBroker.getInstance();
+    public PlayerPlugin(){
+        EventBroker.getInstance().addListener(this,EventType.COLLISION);
     }
+    @Override
+    public void onTrigger(EventType eventType, Entity... entities) {
+        if(player == entities[0]){
+            eventBroker.triggerEvent(EventType.PLAYER_HIT,player);
+        }
+    }
+
 
     @Override
     public void start(GameData gameData, World world) {

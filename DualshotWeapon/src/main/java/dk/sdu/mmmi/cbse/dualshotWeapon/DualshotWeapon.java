@@ -15,10 +15,6 @@ public class DualshotWeapon extends CommonWeapon {
     }
 
     private Entity createBullet(GameData gameData, Entity entity, BulletSPI spi, int rotation) {
-        //Offset bullets by variable amount in the x or y direction depending on the rotation
-        //Find out which direction the shooter is facing
-
-        //tmp
         Entity bullet = spi.createBullet(entity, gameData);
         bullet.setRGB(255,255,255);
         bullet.setRotation(entity.getRotation()+rotation);

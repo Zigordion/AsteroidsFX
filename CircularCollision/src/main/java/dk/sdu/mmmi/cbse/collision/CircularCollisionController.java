@@ -9,23 +9,6 @@ public class CircularCollisionController implements IPostEntityProcessingService
     private final EventBroker eventBroker = EventBroker.getInstance();
     @Override
     public void postProcess(GameData gameData, World world) {
-        //Get all entities.
-        //Loop through entities of different classes.
-        //Trigger a death function on the entity if it collides with a
-        //different class.
-        //Bullets may kill the shooter in that instance as they are spawned
-        //inside the shooter, 2 solutions:
-            //1. spawn bullet away from shooter (enables friendly fire)
-            //2. detect who shot the bullet and disregard them when
-            //   checking for collisions.
-
-
-        /*
-        create a common collisions detector, which will contain an interface which subclasses of entity can implement
-        it will contain the onHit method.
-        Collision controller could then check if entity is instance of collisionDetector, this would prevent violation
-        of the Liskov's Substitution principle. It would however increase the amount of dependencies
-         */
         outerLoop:
         for (Entity entity : world.getEntities() ) {
             double[] coords = entity.getPolygonCoordinates();

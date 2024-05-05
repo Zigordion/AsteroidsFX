@@ -10,16 +10,4 @@ import dk.sdu.mmmi.cbse.common.services.Interactable;
  *
  * @author Emil
  */
-public class Player extends Entity implements IEventListener {
-    private final EventBroker eventBroker =  EventBroker.getInstance();
-    public Player(){
-        eventBroker.addListener(this,EventType.COLLISION);
-    }
-
-    @Override
-    public void onTrigger(EventType eventType, Entity ... entities) {
-        if(entities[0]== this){
-            eventBroker.triggerEvent(EventType.PLAYER_HIT,this);
-        }
-    }
-}
+public class Player extends Entity {}

@@ -6,23 +6,19 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import java.util.Random;
 
 public class EnemyControlSystem implements IEntityProcessingService {
-    private static double timer;
-    private final double maxTimer = 200;
+
     private static double shootTimer;
-    private final double maxShootTimer = 20;
+    private final double maxShootTimer = 60;
     private final double rotationSpeed = 5;
     private final double moveSpeed = 1;
-    Random random = new Random();
+    private final Random random = new Random();
+    private final EnemyPlugin enemyPlugin = new EnemyPlugin();
 
     @Override
     public void process(double deltaTime, GameData gameData, World world) {
-        timer -= 1; //should include delta time
-        shootTimer -= random.nextDouble();//should include delta time+
-        if (timer <= 0) {
-            Entity enemy = createEnemy(gameData);
-            world.addEntity(enemy);
-            timer = maxTimer;
-        }
+        enemyPlugin.process(deltaTime, gameData, world);
+        shootTimer -= random.nextDouble()*deltaTime;
+
         for (Entity enemy : world.getEntities(Enemy.class)) {
             double changeX = Math.cos(Math.toRadians(enemy.getRotation()));
             double changeY = Math.sin(Math.toRadians(enemy.getRotation()));
@@ -44,14 +40,5 @@ public class EnemyControlSystem implements IEntityProcessingService {
         }
     }
 
-    public Entity createEnemy(GameData gameData) {
-        Entity enemy = new Enemy();
-        enemy.setRGB(128,0,0);
-        enemy.setPolygonCoordinates(-5, -5, 10, 5, -5, 5, 10, -5);
-        enemy.setX(random.nextDouble(5, gameData.getDisplayWidth() - 5));
-        enemy.setY(random.nextDouble(5, gameData.getDisplayHeight() - 5));
-        enemy.setActive(true);
-        return enemy;
-    }
 
 }

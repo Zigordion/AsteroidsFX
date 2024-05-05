@@ -2,14 +2,28 @@ package dk.sdu.mmmi.cbse.bulletsystem;
 
 import dk.sdu.mmmi.cbse.common.bullet.Bullet;
 import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
-import dk.sdu.mmmi.cbse.common.data.Entity;
-import dk.sdu.mmmi.cbse.common.data.GameData;
-import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.services.IEventListener;
 
-public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
+import java.util.ArrayList;
+import java.util.List;
+
+public class BulletControlSystem implements IEntityProcessingService, BulletSPI, IEventListener {
     private final double moveSpeed = 5;
+    public BulletControlSystem(){
+        EventBroker.getInstance().addListener(this, EventType.COLLISION);
+    }
+    private final List<Entity> bullets = new ArrayList<>();
+    @Override
+    public void onTrigger(EventType eventType, Entity... entities) {
+        if(bullets.contains(entities[0])){
+            for (Entity bullet : bullets) {
+                bullet.setActive(false);
 
+            }
+        }
+    }
     @Override
     public void process(double deltaTime, GameData gameData, World world) {
         for (Entity entity : world.getEntities(Bullet.class)) {
@@ -35,6 +49,9 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
         bullet.setX(shooter.getX() + Math.cos(Math.toRadians(shooter.getRotation()))*25);
         bullet.setY(shooter.getY() + Math.sin(Math.toRadians(shooter.getRotation()))*25);
         bullet.setRotation(shooter.getRotation());
+        bullets.add(bullet);
         return bullet;
     }
+
+
 }

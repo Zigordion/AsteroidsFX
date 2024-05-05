@@ -7,5 +7,4 @@ module Enemy {
     exports dk.sdu.mmmi.cbse.enemy;
     requires Common;
     provides IEntityProcessingService with EnemyControlSystem;
-    provides IEventListener with Enemy;
 }
