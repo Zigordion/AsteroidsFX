@@ -27,6 +27,7 @@ public class WeaponPickupService implements PickupSPI, IEventListener {
         weaponPickup.setY(entity.getY());
         weaponPickup.setPolygonCoordinates(-4,-4, -4,4, 4,4, 4,-4);
         weaponPickup.setActive(true);
+        weaponPickups.add(weaponPickup);
         return weaponPickup;
     }
 
@@ -36,6 +37,8 @@ public class WeaponPickupService implements PickupSPI, IEventListener {
             if(entities[0] == weaponPickup && entities[1] instanceof Player){
                 eventBroker.triggerEvent(EventType.WEAPON_PICKUP, entities[1]);
                 weaponPickup.setActive(false);
+                weaponPickups.remove(weaponPickup);
+                break;
             }
         }
     }

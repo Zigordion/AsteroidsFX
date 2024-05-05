@@ -27,6 +27,7 @@ public class HealthPickupService implements PickupSPI, IEventListener {
         healthPickup.setY(entity.getY());
         healthPickup.setPolygonCoordinates(-4,-4, -4,4, 4,4, 4,-4);
         healthPickup.setActive(true);
+        healthPickups.add(healthPickup);
         return healthPickup;
     }
     @Override
@@ -35,6 +36,8 @@ public class HealthPickupService implements PickupSPI, IEventListener {
             if(entities[0] == healthPickup && entities[1] instanceof Player){
                 eventBroker.triggerEvent(EventType.HEALTH_PICKUP, entities[1]);
                 healthPickup.setActive(false);
+                healthPickups.remove(healthPickup);
+                break;
             }
         }
     }
