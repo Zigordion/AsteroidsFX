@@ -1,10 +1,9 @@
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-import dk.sdu.mmmi.cbse.common.services.IEventListener;
-import dk.sdu.mmmi.cbse.enemy.Enemy;
-import dk.sdu.mmmi.cbse.enemy.EnemyControlSystem;
+import dk.sdu.mmmi.cbse.enemysystem.EnemyControlSystem;
 
 module Enemy {
-    exports dk.sdu.mmmi.cbse.enemy;
+    exports dk.sdu.mmmi.cbse.enemysystem;
     requires Common;
+    requires CommonEnemy;
     provides IEntityProcessingService with EnemyControlSystem;
 }

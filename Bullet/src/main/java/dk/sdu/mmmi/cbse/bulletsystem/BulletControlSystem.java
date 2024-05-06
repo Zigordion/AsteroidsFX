@@ -13,15 +13,24 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI,
     private final double moveSpeed = 5;
     public BulletControlSystem(){
         EventBroker.getInstance().addListener(this, EventType.COLLISION);
+        EventBroker.getInstance().addListener(this, EventType.PLAYER_HIT);
     }
     private final List<Entity> bullets = new ArrayList<>();
     @Override
     public void onTrigger(EventType eventType, Entity... entities) {
-        if(bullets.contains(entities[0])){
+        if(eventType==EventType.COLLISION){
+            for (Entity bullet : bullets) {
+                if(bullet == entities[0]){
+                    bullet.setActive(false);
+                    bullets.remove(bullet);
+                    break;
+                }
+            }
+        } else if (eventType==EventType.PLAYER_HIT) {
             for (Entity bullet : bullets) {
                 bullet.setActive(false);
-
             }
+            bullets.clear();
         }
     }
     @Override

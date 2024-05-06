@@ -9,7 +9,6 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>dk.sdu.mmmi.cbse.healthpickup</groupId>
     <artifactId>HealthPickup</artifactId>
 
     <properties>
@@ -19,14 +18,20 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>dk.sdu.mmmi.cbse.pickup</groupId>
-            <artifactId>Pickup</artifactId>
+            <groupId>dk.sdu.mmmi.cbse</groupId>
+            <artifactId>PickupGenerator</artifactId>
             <version>1.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>dk.sdu.mmmi.cbse</groupId>
-            <artifactId>Player</artifactId>
+            <artifactId>CommonPlayer</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>dk.sdu.mmmi.cbse</groupId>
+            <artifactId>CommonPickup</artifactId>
             <version>1.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

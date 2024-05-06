@@ -23,7 +23,7 @@ public class EventBroker {
             listenerEvents.addAll(Arrays.asList(eventType));
             listenerTopicMap.replace(eventListener,listenerEvents);
         }else{
-            listenerTopicMap.put(eventListener, List.of(eventType));
+            listenerTopicMap.put(eventListener, new ArrayList<>(Arrays.asList(eventType)));
         }
     }
     public void removeListener(IEventListener eventListener, EventType ... eventType){

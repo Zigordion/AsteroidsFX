@@ -52,6 +52,7 @@ public class Main extends Application {
         for (IGamePluginService iGamePlugin : getPluginServices()) {
             iGamePlugin.start(gameData, world);
         }
+        //Todo: add IGamePluginService stop functionality when player dies
         draw();
 
         render();

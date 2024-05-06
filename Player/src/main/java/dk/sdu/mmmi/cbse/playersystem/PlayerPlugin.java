@@ -3,9 +3,7 @@ package dk.sdu.mmmi.cbse.playersystem;
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
-
-import java.util.ArrayList;
-import java.util.List;
+import dk.sdu.mmmi.cbse.player.Player;
 
 public class PlayerPlugin implements IGamePluginService, IEventListener {
 

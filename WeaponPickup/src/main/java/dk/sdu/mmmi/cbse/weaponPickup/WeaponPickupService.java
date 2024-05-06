@@ -1,12 +1,12 @@
 package dk.sdu.mmmi.cbse.weaponPickup;
 
+import dk.sdu.mmmi.pickup.Pickup;
+import dk.sdu.mmmi.pickup.PickupSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.EventBroker;
 import dk.sdu.mmmi.cbse.common.data.EventType;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
-import dk.sdu.mmmi.cbse.pickup.Pickup;
-import dk.sdu.mmmi.cbse.pickup.PickupSPI;
-import dk.sdu.mmmi.cbse.playersystem.Player;
+import dk.sdu.mmmi.cbse.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;

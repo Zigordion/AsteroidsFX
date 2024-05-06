@@ -9,7 +9,6 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>dk.sdu.mmmi.cbse.dualshotWeapon</groupId>
     <artifactId>DualshotWeapon</artifactId>
 
     <properties>
@@ -25,7 +24,7 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>dk.sdu.mmmi.cbse.weapon</groupId>
+            <groupId>dk.sdu.mmmi.cbse</groupId>
             <artifactId>Weapon</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
