@@ -57,3 +57,6 @@ Enemy/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFil
 /ScoreSystem/target/maven-archiver/pom.properties
 /Weapon/target/maven-archiver/pom.properties
 /WeaponPickup/target/maven-archiver/pom.properties
+/PickupGenerator/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+/PickupGenerator/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+/PickupGenerator/target/maven-archiver/pom.properties
