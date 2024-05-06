@@ -20,7 +20,7 @@ public class ScoreController implements IUIProcessingService, IEventListener {
     }
 
     @Override
-    public void onTrigger(EventType eventType, Entity... entities) {
+    public void onTrigger(Event event) {
         score++;
     }
 

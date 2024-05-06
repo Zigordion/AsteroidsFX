@@ -34,7 +34,8 @@ public class CircularCollisionController implements IPostEntityProcessingService
                     double distance = Math.sqrt(deltaX*deltaX+deltaY*deltaY);
                     if(distance < entityRadius+otherRadius){
                         //collided
-                        eventBroker.triggerEvent(EventType.COLLISION, entity, other);
+                        Event event = new Event(EventType.COLLISION,world,gameData,entity,other);
+                        eventBroker.triggerEvent(event);
                         continue outerLoop;
                     }
                 }

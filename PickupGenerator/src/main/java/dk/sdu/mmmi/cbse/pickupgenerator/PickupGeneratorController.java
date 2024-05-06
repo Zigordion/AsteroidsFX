@@ -18,20 +18,12 @@ public class PickupGeneratorController implements IEventListener, IGamePluginSer
     private final Random random = new Random();
     private double pickupGenerationChance = 0.3;
     @Override
-    public void onTrigger(EventType eventType, Entity... entities) {
-        if(eventType==EventType.GENERATE_PICKUP){
-            List<? extends PickupSPI> pickupGenerators = getPickupSPI();
-            if(random.nextDouble() < pickupGenerationChance){
-                int index = random.nextInt(0,pickupGenerators.size());
-                Pickup pickup = pickupGenerators.get(index).createPickup(entities[0]);
-                world.addEntity(pickup);
-            }
-        } else if(eventType==EventType.PLAYER_HIT){
-            for (Entity pickup : world.getEntities()) {
-                if(pickup instanceof Pickup){
-                    pickup.setActive(false);
-                }
-            }
+    public void onTrigger(Event event) {
+        List<? extends PickupSPI> pickupGenerators = getPickupSPI();
+        if(random.nextDouble() < pickupGenerationChance){
+            int index = random.nextInt(0,pickupGenerators.size());
+            Pickup pickup = pickupGenerators.get(index).createPickup(event.getEntities()[0]);
+            world.addEntity(pickup);
         }
     }
     private List<? extends PickupSPI> getPickupSPI() {
@@ -42,12 +34,10 @@ public class PickupGeneratorController implements IEventListener, IGamePluginSer
     public void start(GameData gameData, World world) {
         PickupGeneratorController.world = world;
         EventBroker.getInstance().addListener(this,EventType.GENERATE_PICKUP);
-        EventBroker.getInstance().addListener(this,EventType.PLAYER_HIT);
     }
 
     @Override
     public void stop(GameData gameData, World world) {
         EventBroker.getInstance().removeListener(this,EventType.GENERATE_PICKUP);
-        EventBroker.getInstance().removeListener(this,EventType.PLAYER_HIT);
     }
 }

@@ -41,10 +41,10 @@ public class EventBroker {
         }
     }
 
-    public void triggerEvent(EventType eventType,Entity ... entities){
+    public void triggerEvent(Event event){
         for (IEventListener eventListener : listenerTopicMap.keySet()) {
-            if(listenerTopicMap.get(eventListener).contains(eventType)){
-                eventListener.onTrigger(eventType, entities);
+            if(listenerTopicMap.get(eventListener).contains(event.getEventType())){
+                eventListener.onTrigger(event);
             }
         }
     }

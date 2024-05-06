@@ -4,6 +4,7 @@ import dk.sdu.mmmi.cbse.health.PlayerHealthSystem;
 
 module Health {
     requires Common;
+    requires CommonPlayer;
     provides IUIProcessingService with PlayerHealthSystem;
     provides IGamePluginService with PlayerHealthSystem;
 }

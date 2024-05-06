@@ -18,7 +18,6 @@ public class AsteroidPlugin implements IEventListener  {
     private final EventBroker eventBroker = EventBroker.getInstance();
     public AsteroidPlugin (){
         eventBroker.addListener(this,EventType.COLLISION);
-        eventBroker.addListener(this,EventType.PLAYER_HIT);
     }
     public void process(double deltaTime, GameData gameData, World world){
         timer -= deltaTime;
@@ -95,24 +94,18 @@ public class AsteroidPlugin implements IEventListener  {
     }
 
     @Override
-    public void onTrigger(EventType eventType, Entity... entities) {
-        if(eventType == EventType.COLLISION){
-            for (Asteroid asteroid : asteroids) {
-                if(entities[0] == asteroid && entities[1] instanceof Bullet){
-                    if(asteroid.getSize()/2.0>1.5){
-                        createSmallerAsteroid(asteroid);
-                    }
-                    eventBroker.triggerEvent(EventType.ASTEROID_DESTROYED,asteroid);
-                    asteroid.setActive(false);
-                    asteroids.remove(asteroid);
-                    break;
+    public void onTrigger(Event event) {
+        for (Asteroid asteroid : asteroids) {
+            if(event.getEntities()[0] == asteroid && event.getEntities()[1] instanceof Bullet){
+                if(asteroid.getSize()/2.0>1.5){
+                    createSmallerAsteroid(asteroid);
                 }
-            }
-        } else if (eventType==EventType.PLAYER_HIT) {
-            for (Asteroid asteroid : asteroids) {
+                Event newEvent = new Event(EventType.ASTEROID_DESTROYED, event.getWorld(), event.getGameData(),asteroid);
+                eventBroker.triggerEvent(newEvent);
                 asteroid.setActive(false);
+                asteroids.remove(asteroid);
+                break;
             }
-            asteroids.clear();
         }
     }
 }

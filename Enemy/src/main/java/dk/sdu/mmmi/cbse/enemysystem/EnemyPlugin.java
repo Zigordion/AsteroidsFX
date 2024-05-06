@@ -1,5 +1,6 @@
 package dk.sdu.mmmi.cbse.enemysystem;
 
+import dk.sdu.mmmi.cbse.common.data.Event;
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.enemy.Enemy;
@@ -38,25 +39,18 @@ public class EnemyPlugin implements IEventListener {
     }
 
     @Override
-    public void onTrigger(EventType eventType, Entity... entities) {
-        if(eventType==EventType.COLLISION){
-            for (Entity enemy : enemies) {
-                if(entities[0] == enemy){
-                    if(entities[1] instanceof Enemy){
-                        return;
-                    }
-                    eventBroker.triggerEvent(EventType.GENERATE_PICKUP,enemy);
-                    enemies.remove(enemy);
-                    enemy.setActive(false);
-                    break;
+    public void onTrigger(Event event) {
+        for (Entity enemy : enemies) {
+            if(event.getEntities()[0] == enemy){
+                if(event.getEntities()[1] instanceof Enemy){
+                    return;
                 }
-            }
-        } else if (eventType==EventType.PLAYER_HIT) {
-            for (Entity enemy : enemies) {
+                Event newEvent = new Event(EventType.GENERATE_PICKUP, event.getWorld(), event.getGameData(), enemy);
+                eventBroker.triggerEvent(newEvent);
+                enemies.remove(enemy);
                 enemy.setActive(false);
+                break;
             }
-            enemies.clear();
         }
     }
-
 }

@@ -13,9 +13,10 @@ public class PlayerPlugin implements IGamePluginService, IEventListener {
         EventBroker.getInstance().addListener(this,EventType.COLLISION);
     }
     @Override
-    public void onTrigger(EventType eventType, Entity... entities) {
-        if(player == entities[0]){
-            eventBroker.triggerEvent(EventType.PLAYER_HIT,player);
+    public void onTrigger(Event event) {
+        if(player == event.getEntities()[0]){
+            Event newEvent = new Event(EventType.PLAYER_HIT, event.getWorld(), event.getGameData(), player);
+            eventBroker.triggerEvent(newEvent);
         }
     }
 

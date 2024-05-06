@@ -4,28 +4,10 @@ import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
+import dk.sdu.mmmi.cbse.player.Player;
 
 
 public class PlayerHealthSystem implements IUIProcessingService, IGamePluginService, IEventListener {
-    /*
-       Common health module, which is simply responsible for keeping track of health and send signal when health is 0
-       Player stat module, requires common health & player, would then listen? to the onhit and give common health module
-       the players current health and to decrease health, the common health module would then return the new health stat.
-
-       Would a player stat module be too generic?
-
-
-       OnHit would require some form of callback/event trigger, perhaps add an interface in common, which would provide
-       a method which returns null and takes an entity as a parameter.
-       Alternatively an EventListener or a subset of Consumers would be used instead of an interface
-       The base entity class could keep a list of all listeners, and call all of them when hit.
-       Each subclass of entity would then override and call the base method first
-
-       This approach would add a lot of fluff to the common module tho
-
-       Alternatively, make health only a player attribute and add it as a variable on the player entity. Or make the player
-       module require the health module. The latter is not ideal as the game should not be dependent upon external plugins
-        */
     private static int playerHealth;
     private final int maxPlayerHealth = 3;
     private final UiTextElement playerHealthTitle = new UiTextElement("Lives", 0,0,255,255,255);
@@ -66,17 +48,22 @@ public class PlayerHealthSystem implements IUIProcessingService, IGamePluginServ
     }
 
     @Override
-    public void onTrigger(EventType eventType, Entity ... entities) {
-        if(eventType == EventType.PLAYER_HIT){
+    public void onTrigger(Event event) {
+        if(event.getEventType() == EventType.PLAYER_HIT){
             playerHealth--;
-            entities[0].setX(GameData.getDisplayWidth()/2.0);
-            entities[0].setY(GameData.getDisplayHeight()/2.0);
+            event.getEntities()[0].setX(GameData.getDisplayWidth()/2.0);
+            event.getEntities()[0].setY(GameData.getDisplayHeight()/2.0);
             if(playerHealth<=0){
-                entities[0].setActive(false);
+                event.getEntities()[0].setActive(false);
                 gameOverText = new UiTextElement("Game Over",0,0,255,0,0);
             }
+            for (Entity entity : event.getWorld().getEntities()) {
+                if(!(entity instanceof Player)){
+                    entity.setActive(false);
+                }
+            }
         }
-        if(eventType == EventType.HEALTH_PICKUP){
+        if(event.getEventType() == EventType.HEALTH_PICKUP){
             if(playerHealth == maxPlayerHealth){
                 return;
             }

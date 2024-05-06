@@ -45,14 +45,14 @@ public class WeaponControlSystem implements IGamePluginService, IEntityProcessin
     }
 
     @Override
-    public void onTrigger(EventType eventType, Entity... entities) {
-        if(eventType.equals(EventType.SHOOT)){
-            for (Entity entity : entities) {
+    public void onTrigger(Event event) {
+        if(event.getEventType().equals(EventType.SHOOT)){
+            for (Entity entity : event.getEntities()) {
                 shoot(gameData,world,entity);
             }
         }
-        if(eventType.equals(EventType.WEAPON_PICKUP)){
-            for (Entity entity : entities) {
+        if(event.getEventType().equals(EventType.WEAPON_PICKUP)){
+            for (Entity entity : event.getEntities()) {
                 setCurrentWeapon(entity);
             }
         }

@@ -1,5 +1,6 @@
 package dk.sdu.mmmi.cbse.healthpickup;
 
+import dk.sdu.mmmi.cbse.common.data.Event;
 import dk.sdu.mmmi.pickup.Pickup;
 import dk.sdu.mmmi.pickup.PickupSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
@@ -31,10 +32,11 @@ public class HealthPickupService implements PickupSPI, IEventListener {
         return healthPickup;
     }
     @Override
-    public void onTrigger(EventType eventType, Entity... entities) {
+    public void onTrigger(Event event) {
         for (HealthPickup healthPickup : healthPickups) {
-            if(entities[0] == healthPickup && entities[1] instanceof Player){
-                eventBroker.triggerEvent(EventType.HEALTH_PICKUP, entities[1]);
+            if(event.getEntities()[0] == healthPickup && event.getEntities()[1] instanceof Player){
+                Event newEvent = new Event(EventType.HEALTH_PICKUP, event.getWorld(), event.getGameData(),event.getEntities()[1]);
+                eventBroker.triggerEvent(newEvent);
                 healthPickup.setActive(false);
                 healthPickups.remove(healthPickup);
                 break;
