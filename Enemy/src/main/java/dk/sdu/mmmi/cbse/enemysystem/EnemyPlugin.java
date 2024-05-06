@@ -14,6 +14,7 @@ public class EnemyPlugin implements IEventListener {
 	private final List<Entity> enemies = new ArrayList<>();
 	private static double timer;
 	private final double maxTimer = 400;
+	private final int edgeOffset = 10;
 	public EnemyPlugin() {
 		EventBroker.getInstance().addListener(this, EventType.COLLISION);
 		EventBroker.getInstance().addListener(this, EventType.PLAYER_HIT);
@@ -30,8 +31,26 @@ public class EnemyPlugin implements IEventListener {
 		Entity enemy = new Enemy();
 		enemy.setRGB(128, 0, 0);
 		enemy.setPolygonCoordinates(-5, -5, 10, 5, -5, 5, 10, -5);
-		enemy.setX(random.nextDouble(5, gameData.getDisplayWidth() - 5));
-		enemy.setY(random.nextDouble(5, gameData.getDisplayHeight() - 5));
+
+		int position = random.nextInt(0, 4);
+		switch (position) {
+			case 0 -> {
+				enemy.setX(random.nextDouble(edgeOffset, gameData.getDisplayWidth() - edgeOffset));
+				enemy.setY(edgeOffset);
+			}
+			case 1 -> {
+				enemy.setX(random.nextDouble(edgeOffset, gameData.getDisplayWidth() - edgeOffset));
+				enemy.setY(gameData.getDisplayHeight() - edgeOffset);
+			}
+			case 2 -> {
+				enemy.setX(edgeOffset);
+				enemy.setY(random.nextDouble(edgeOffset, gameData.getDisplayHeight() - edgeOffset));
+			}
+			case 3 -> {
+				enemy.setX(gameData.getDisplayWidth() - edgeOffset);
+				enemy.setY(random.nextDouble(edgeOffset, gameData.getDisplayHeight() - edgeOffset));
+			}
+		}
 		enemy.setActive(true);
 		enemies.add(enemy);
 		return enemy;

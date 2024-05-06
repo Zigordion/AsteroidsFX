@@ -39,8 +39,25 @@ public class AsteroidPlugin implements IEventListener {
 			newPolygons[i] = polygons[i] * asteroid.getSize();
 		}
 		asteroid.setPolygonCoordinates(newPolygons);
-		asteroid.setX(random.nextDouble(5, gameData.getDisplayWidth() - 5));
-		asteroid.setY(random.nextDouble(5, gameData.getDisplayHeight() - 5));
+		int position = random.nextInt(0, 4);
+		switch (position) {
+			case 0 -> {
+				asteroid.setX(random.nextDouble(5, gameData.getDisplayWidth() - 5));
+				asteroid.setY(5);
+			}
+			case 1 -> {
+				asteroid.setX(random.nextDouble(5, gameData.getDisplayWidth() - 5));
+				asteroid.setY(gameData.getDisplayHeight() - 5);
+			}
+			case 2 -> {
+				asteroid.setX(5);
+				asteroid.setY(random.nextDouble(5, gameData.getDisplayHeight() - 5));
+			}
+			case 3 -> {
+				asteroid.setX(gameData.getDisplayWidth() - 5);
+				asteroid.setY(random.nextDouble(5, gameData.getDisplayHeight() - 5));
+			}
+		}
 		asteroid.setActive(true);
 		double xPos = asteroid.getX();
 		double yPos = asteroid.getY();
