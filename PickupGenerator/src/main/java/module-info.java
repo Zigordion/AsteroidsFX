@@ -3,8 +3,8 @@ import dk.sdu.mmmi.cbse.pickupgenerator.PickupGeneratorController;
 import dk.sdu.mmmi.pickup.PickupSPI;
 
 module PickupGenerator {
-    uses PickupSPI;
-    requires Common;
-    requires CommonPickup;
-    provides IGamePluginService with PickupGeneratorController;
+	uses PickupSPI;
+	requires Common;
+	requires CommonPickup;
+	provides IGamePluginService with PickupGeneratorController;
 }

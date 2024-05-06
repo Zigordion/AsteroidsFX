@@ -1,4 +1,4 @@
 module CommonPickup {
-    exports dk.sdu.mmmi.pickup;
-    requires Common;
+	exports dk.sdu.mmmi.pickup;
+	requires Common;
 }
