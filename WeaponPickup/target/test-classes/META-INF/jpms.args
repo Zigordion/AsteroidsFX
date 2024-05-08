@@ -1,0 +1,4 @@
+--patch-module
+WeaponPickup=_
+--add-reads
+WeaponPickup=ALL-UNNAMED

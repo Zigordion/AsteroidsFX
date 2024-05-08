@@ -62,9 +62,7 @@ public class Main extends Application {
 		iuiProcessingServiceCollection = getIUIProcessingServices();
 		iPostEntityProcessingServices = getPostEntityProcessingServices();
 		iEntityProcessingServices = getEntityProcessingServices();
-		for (ILateStartService lateStartService : getLateStartServices()) {
-			lateStartService.lateStart(gameData, world);
-		}
+
 	}
 
 	private Scene initiateScene() {
@@ -185,9 +183,7 @@ public class Main extends Application {
 	private Collection<? extends IGamePluginService> getPluginServices() {
 		return ServiceLoader.load(IGamePluginService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
 	}
-	private Collection<? extends ILateStartService> getLateStartServices() {
-		return ServiceLoader.load(ILateStartService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-	}
+
 
 	private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
 		return ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get)

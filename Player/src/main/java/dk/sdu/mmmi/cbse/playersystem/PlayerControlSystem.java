@@ -6,23 +6,23 @@ import dk.sdu.mmmi.cbse.player.Player;
 
 public class PlayerControlSystem implements IEntityProcessingService {
 
-	private final double rotationSpeed = 3.5;
-	private final double moveSpeed = 1;
+	private final double ROTATION_SPEED = 3.5;
+	private final double MOVE_SPEED = 1;
 
 	@Override
 	public void process(double deltaTime, GameData gameData, World world) {
 		for (Entity player : world.getEntities(Player.class)) {
 			if (gameData.getKeys().isDown(GameKeys.LEFT)) {
-				player.setRotation(player.getRotation() - rotationSpeed * deltaTime);
+				player.setRotation(player.getRotation() - ROTATION_SPEED * deltaTime);
 			}
 			if (gameData.getKeys().isDown(GameKeys.RIGHT)) {
-				player.setRotation(player.getRotation() + rotationSpeed * deltaTime);
+				player.setRotation(player.getRotation() + ROTATION_SPEED * deltaTime);
 			}
 			if (gameData.getKeys().isDown(GameKeys.UP)) {
 				double changeX = Math.cos(Math.toRadians(player.getRotation()));
 				double changeY = Math.sin(Math.toRadians(player.getRotation()));
-				player.setX((player.getX() + changeX * moveSpeed * deltaTime) % gameData.getDisplayWidth());
-				player.setY((player.getY() + changeY * moveSpeed * deltaTime) % gameData.getDisplayHeight());
+				player.setX((player.getX() + changeX * MOVE_SPEED * deltaTime) % gameData.getDisplayWidth());
+				player.setY((player.getY() + changeY * MOVE_SPEED * deltaTime) % gameData.getDisplayHeight());
 			}
 
 			if (gameData.getKeys().isPressed(GameKeys.SPACE)) { // doesn't get called if up and left is clicked, only
