@@ -3,6 +3,7 @@ package dk.sdu.mmmi.cbse.collision;
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.Interactable;
+import dk.sdu.mmmi.cbse.common.util.EventBroker;
 
 public class CircularCollisionController implements IPostEntityProcessingService {
 

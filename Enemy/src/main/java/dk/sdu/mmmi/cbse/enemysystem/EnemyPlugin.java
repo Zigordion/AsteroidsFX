@@ -3,6 +3,7 @@ package dk.sdu.mmmi.cbse.enemysystem;
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.data.Event;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
+import dk.sdu.mmmi.cbse.common.util.EventBroker;
 import dk.sdu.mmmi.cbse.enemy.Enemy;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,6 @@ public class EnemyPlugin implements IEventListener {
 	private final int edgeOffset = 10;
 	public EnemyPlugin() {
 		EventBroker.getInstance().addListener(this, EventType.COLLISION);
-		EventBroker.getInstance().addListener(this, EventType.PLAYER_HIT);
 	}
 	public void process(double deltaTime, GameData gameData, World world) {
 		timer -= deltaTime;

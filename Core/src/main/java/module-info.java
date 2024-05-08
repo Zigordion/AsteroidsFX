@@ -9,5 +9,4 @@ module Core {
 	uses dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 	uses IPostEntityProcessingService;
 	uses dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
-	uses dk.sdu.mmmi.cbse.common.services.ILateStartService;
 }

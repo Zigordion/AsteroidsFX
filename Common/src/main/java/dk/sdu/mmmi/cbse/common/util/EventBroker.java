@@ -1,5 +1,7 @@
-package dk.sdu.mmmi.cbse.common.data;
+package dk.sdu.mmmi.cbse.common.util;
 
+import dk.sdu.mmmi.cbse.common.data.Event;
+import dk.sdu.mmmi.cbse.common.data.EventType;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

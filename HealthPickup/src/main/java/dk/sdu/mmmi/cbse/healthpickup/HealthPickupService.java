@@ -2,9 +2,9 @@ package dk.sdu.mmmi.cbse.healthpickup;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.Event;
-import dk.sdu.mmmi.cbse.common.data.EventBroker;
 import dk.sdu.mmmi.cbse.common.data.EventType;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
+import dk.sdu.mmmi.cbse.common.util.EventBroker;
 import dk.sdu.mmmi.cbse.player.Player;
 import dk.sdu.mmmi.pickup.Pickup;
 import dk.sdu.mmmi.pickup.PickupSPI;

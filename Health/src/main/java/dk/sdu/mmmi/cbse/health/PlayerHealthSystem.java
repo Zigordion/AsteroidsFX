@@ -4,6 +4,7 @@ import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IUIProcessingService;
+import dk.sdu.mmmi.cbse.common.util.EventBroker;
 import dk.sdu.mmmi.cbse.player.Player;
 
 public class PlayerHealthSystem implements IUIProcessingService, IGamePluginService, IEventListener {

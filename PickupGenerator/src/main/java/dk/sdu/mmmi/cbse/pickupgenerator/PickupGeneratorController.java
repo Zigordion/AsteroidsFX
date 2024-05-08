@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
+import dk.sdu.mmmi.cbse.common.util.EventBroker;
 import dk.sdu.mmmi.pickup.Pickup;
 import dk.sdu.mmmi.pickup.PickupSPI;
 import java.util.List;
