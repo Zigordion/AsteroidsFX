@@ -64,6 +64,32 @@ class CircularCollisionControllerTest {
 
     }
     @Test
+    void testCollisionWhenEntitiesJustCloseEnough() {
+        when(entity2.getX()).thenReturn(7.9);
+        when(entity2.getY()).thenReturn(0.0);
+        when(entity1.getX()).thenReturn(0.0);
+        when(entity1.getY()).thenReturn(0.0);
+        circularCollisionController.postProcess(gameData, world);
+        verify(eventBroker, atLeastOnce()).triggerEvent(
+                eq(EventType.COLLISION),
+                eq(entity1),
+                eq(entity2));
+
+    }
+    @Test
+    void testNoCollisionWhenEntitiesExactlyFarEnough() {
+        when(entity2.getX()).thenReturn(8.0);
+        when(entity2.getY()).thenReturn(0.0);
+        when(entity1.getX()).thenReturn(0.0);
+        when(entity1.getY()).thenReturn(0.0);
+        circularCollisionController.postProcess(gameData, world);
+        verify(eventBroker, never()).triggerEvent(
+                eq(EventType.COLLISION),
+                eq(entity1),
+                eq(entity2));
+
+    }
+    @Test
     void testCollisionWhenEntitiesClose() {
         when(entity2.getX()).thenReturn(2.0);
         when(entity2.getY()).thenReturn(2.0);
