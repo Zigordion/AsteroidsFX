@@ -26,8 +26,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
 				player.setY((player.getY() + changeY * MOVE_SPEED * deltaTime) % gameData.getDisplayHeight());
 			}
 
-			if (gameData.getKeys().isPressed(GameKeys.SPACE)) { // doesn't get called if up and left is clicked, only
-																// laptop
+			if (gameData.getKeys().isPressed(GameKeys.SPACE)) {
 				Event shootEvent = new Event(EventType.SHOOT, world, gameData, player);
 				EventBroker.getInstance().triggerEvent(shootEvent);
 			}
