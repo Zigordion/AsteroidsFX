@@ -39,7 +39,7 @@ class CircularCollisionControllerTest {
     }
 
     @Test
-    void noCollisionWhenFarApart() {
+    void testNoCollisionWhenEntitiesFarApart() {
         when(entity2.getX()).thenReturn(100.0);
         when(entity2.getY()).thenReturn(100.0);
         when(entity1.getX()).thenReturn(0.0);
@@ -51,9 +51,22 @@ class CircularCollisionControllerTest {
                 eq(entity2));
     }
     @Test
-    void collisionWhenClose() {
+    void testCollisionWhenEntitiesAtSameCoordinate() {
         when(entity2.getX()).thenReturn(0.0);
         when(entity2.getY()).thenReturn(0.0);
+        when(entity1.getX()).thenReturn(0.0);
+        when(entity1.getY()).thenReturn(0.0);
+        circularCollisionController.postProcess(gameData, world);
+        verify(eventBroker, atLeastOnce()).triggerEvent(
+                eq(EventType.COLLISION),
+                eq(entity1),
+                eq(entity2));
+
+    }
+    @Test
+    void testCollisionWhenEntitiesClose() {
+        when(entity2.getX()).thenReturn(2.0);
+        when(entity2.getY()).thenReturn(2.0);
         when(entity1.getX()).thenReturn(0.0);
         when(entity1.getY()).thenReturn(0.0);
         circularCollisionController.postProcess(gameData, world);
