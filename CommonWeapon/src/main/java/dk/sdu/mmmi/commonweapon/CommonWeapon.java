@@ -1,4 +1,4 @@
-package dk.sdu.mmmi.cbse.weapon;
+package dk.sdu.mmmi.commonweapon;
 
 import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;

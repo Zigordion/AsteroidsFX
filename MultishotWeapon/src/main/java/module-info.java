@@ -1,8 +1,8 @@
 import dk.sdu.mmmi.cbse.multishotWeapon.MultishotSystem;
-import dk.sdu.mmmi.cbse.weapon.WeaponSPI;
+import dk.sdu.mmmi.commonweapon.WeaponSPI;
 
 module MultishotWeapon {
-	requires Weapon;
+	requires CommonWeapon;
 	requires Common;
 	requires CommonBullet;
 	provides WeaponSPI with MultishotSystem;

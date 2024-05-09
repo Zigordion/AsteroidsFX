@@ -1,4 +1,4 @@
-package dk.sdu.mmmi.cbse.weapon;
+package dk.sdu.mmmi.commonweapon;
 
 public interface WeaponSPI {
 

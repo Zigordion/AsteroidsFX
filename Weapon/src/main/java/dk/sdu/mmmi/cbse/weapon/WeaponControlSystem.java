@@ -8,6 +8,8 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.util.EventBroker;
+import dk.sdu.mmmi.commonweapon.CommonWeapon;
+import dk.sdu.mmmi.commonweapon.WeaponSPI;
 import java.util.*;
 
 public class WeaponControlSystem implements IGamePluginService, IEntityProcessingService, IEventListener {
