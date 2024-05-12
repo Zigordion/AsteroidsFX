@@ -28,19 +28,11 @@ public class WeaponControlSystem implements IGamePluginService, IEntityProcessin
 		});
 	}
 
-	private Collection<? extends BulletSPI> getBulletSPIs() {
-		return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-	}
-
 	public void setRandomWeapon(Entity shooter) {
 		List<? extends WeaponSPI> weaponSPIs = getWeaponSPI();
 		Random random = new Random();
 		weaponMap.remove(shooter.getID());
 		weaponMap.put(shooter.getID(), weaponSPIs.get(random.nextInt(0, weaponSPIs.size())).createWeapon());
-	}
-
-	private List<? extends WeaponSPI> getWeaponSPI() {
-		return ServiceLoader.load(WeaponSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
 	}
 
 	@Override
@@ -75,5 +67,13 @@ public class WeaponControlSystem implements IGamePluginService, IEntityProcessin
 	@Override
 	public void stop(GameData gameData, World world) {
 		EventBroker.getInstance().removeListener(this, EventType.WEAPON_PICKUP, EventType.SHOOT, EventType.PLAYER_HIT);
+	}
+
+	private List<? extends WeaponSPI> getWeaponSPI() {
+		return ServiceLoader.load(WeaponSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+	}
+
+	private Collection<? extends BulletSPI> getBulletSPIs() {
+		return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
 	}
 }

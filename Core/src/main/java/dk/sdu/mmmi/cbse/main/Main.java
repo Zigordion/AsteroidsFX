@@ -46,7 +46,6 @@ public class Main extends Application {
 		gameWindow.setBackground(background);
 		Scene scene = initiateScene();
 
-		// Lookup all Game Plugins using ServiceLoader
 		for (IGamePluginService iGamePlugin : ServiceLocator.getServices(IGamePluginService.class)) {
 			iGamePlugin.start(gameData, world);
 		}
@@ -115,11 +114,6 @@ public class Main extends Application {
 
 	private void update(double deltaTime) {
 
-		// Update
-
-		// Getters should only be called once, as it creates new instances of the
-		// service, resulting in variables being reset.
-
 		for (IEntityProcessingService entityProcessorService : iEntityProcessingServices) {
 			entityProcessorService.process(deltaTime, gameData, world);
 		}
@@ -158,7 +152,6 @@ public class Main extends Application {
 
 	}
 	private void drawUI() {
-		// go through each element in game ui and update ui accordingly
 		for (UiTextElement textElement : gameUi.getUiTextElements()) {
 			Text text;
 			if (!elementTextMap.containsKey(textElement)) {
