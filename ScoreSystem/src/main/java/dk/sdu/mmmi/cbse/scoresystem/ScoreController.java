@@ -25,11 +25,7 @@ public class ScoreController implements IUIProcessingService, IEventListener {
     @Override
     public void onTrigger(EventType eventType, Entity... entities) {
         HttpClient client = HttpClient.newHttpClient();
-
-        // Define the URL of the API you want to call
         String apiUrl = "http://localhost:8080/api/score";
-
-        // Create an HTTP request
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(apiUrl))
                 .GET()
