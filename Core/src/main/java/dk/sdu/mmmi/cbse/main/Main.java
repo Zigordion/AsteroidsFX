@@ -38,7 +38,6 @@ public class Main extends Application {
     private Collection<? extends IUIProcessingService> iuiProcessingServiceCollection;
     private Collection<? extends  IEntityProcessingService> iEntityProcessingServices;
     private Collection<? extends  IPostEntityProcessingService> iPostEntityProcessingServices;
-    private static final List<ModuleLayer> MODULE_LAYERS = new ArrayList<>();
     private static ModuleLayer moduleLayer;
     public static void main(String[] args) {
         moduleLayer = createLayer();
