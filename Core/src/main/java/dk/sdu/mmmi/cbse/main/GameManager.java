@@ -59,7 +59,7 @@ public class GameManager {
         Scene scene = initiateScene();
 
         // Lookup all Game Plugins using ServiceLoader
-        for (IGamePluginService iGamePlugin : getGamePluginServices()) {
+        for (IGamePluginService iGamePlugin : gamePluginServices) {
             iGamePlugin.start(gameData, world);
         }
         draw();
@@ -69,7 +69,7 @@ public class GameManager {
         window.setScene(scene);
         window.setTitle("ASTEROIDS");
         window.show();
-        for (ILateStartService lateStartService : getiLateStartServices()) {
+        for (ILateStartService lateStartService : lateStartServices) {
             lateStartService.lateStart(gameData, world);
         }
     }
@@ -124,19 +124,13 @@ public class GameManager {
     }
 
     private void update(double deltaTime) {
-
-        // Update
-
-        //Getters should only be called once, as it creates new instances of the service, resulting in variables being reset.
-        System.out.println(getEntityProcessingServices());
-        for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
-            System.out.println("test");
+        for (IEntityProcessingService entityProcessorService : entityProcessingServices) {
             entityProcessorService.process(deltaTime, gameData, world);
         }
-        for (IPostEntityProcessingService postEntityProcessorService : getiPostEntityProcessingServices()) {
+        for (IPostEntityProcessingService postEntityProcessorService : postEntityProcessingServices) {
             postEntityProcessorService.postProcess(gameData, world);
         }
-        for (IUIProcessingService uiProcessingService : getIuiProcessingServiceCollection()) {
+        for (IUIProcessingService uiProcessingService : uiProcessingServices) {
             uiProcessingService.processUI(gameData, gameUi);
         }
 
@@ -196,23 +190,4 @@ public class GameManager {
         }
     }
 
-    public Collection<? extends IUIProcessingService> getIuiProcessingServiceCollection() {
-        return uiProcessingServices;
-    }
-
-    public Collection<? extends IGamePluginService> getGamePluginServices() {
-        return gamePluginServices;
-    }
-
-    public List<IEntityProcessingService> getEntityProcessingServices() {
-        return ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-    }
-
-    public Collection<? extends IPostEntityProcessingService> getiPostEntityProcessingServices() {
-        return postEntityProcessingServices;
-    }
-
-    public Collection<? extends ILateStartService> getiLateStartServices() {
-        return lateStartServices;
-    }
 }
