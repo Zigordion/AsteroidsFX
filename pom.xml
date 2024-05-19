@@ -31,6 +31,7 @@
         <module>CommonEnemy</module>
         <module>CommonPickup</module>
         <module>CommonAsteroid</module>
+        <module>CommonWeapon</module>
     </modules>
     <properties>
         <java>java</java>

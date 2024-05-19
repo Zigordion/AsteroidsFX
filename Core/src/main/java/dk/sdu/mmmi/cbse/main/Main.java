@@ -1,12 +1,11 @@
 package dk.sdu.mmmi.cbse.main;
 
-import static java.util.stream.Collectors.toList;
-
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.*;
+import dk.sdu.mmmi.cbse.common.util.EventBroker;
+import dk.sdu.mmmi.cbse.common.util.ServiceLocator;
 import java.util.Collection;
 import java.util.Map;
-import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -47,8 +46,7 @@ public class Main extends Application {
 		gameWindow.setBackground(background);
 		Scene scene = initiateScene();
 
-		// Lookup all Game Plugins using ServiceLoader
-		for (IGamePluginService iGamePlugin : getPluginServices()) {
+		for (IGamePluginService iGamePlugin : ServiceLocator.getServices(IGamePluginService.class)) {
 			iGamePlugin.start(gameData, world);
 		}
 		// Todo: add IGamePluginService stop functionality when player dies
@@ -59,9 +57,9 @@ public class Main extends Application {
 		window.setScene(scene);
 		window.setTitle("ASTEROIDS");
 		window.show();
-		iuiProcessingServiceCollection = getIUIProcessingServices();
-		iPostEntityProcessingServices = getPostEntityProcessingServices();
-		iEntityProcessingServices = getEntityProcessingServices();
+		iuiProcessingServiceCollection = ServiceLocator.getServices(IUIProcessingService.class);
+		iPostEntityProcessingServices = ServiceLocator.getServices(IPostEntityProcessingService.class);
+		iEntityProcessingServices = ServiceLocator.getServices(IEntityProcessingService.class);
 
 	}
 
@@ -116,11 +114,6 @@ public class Main extends Application {
 
 	private void update(double deltaTime) {
 
-		// Update
-
-		// Getters should only be called once, as it creates new instances of the
-		// service, resulting in variables being reset.
-
 		for (IEntityProcessingService entityProcessorService : iEntityProcessingServices) {
 			entityProcessorService.process(deltaTime, gameData, world);
 		}
@@ -159,7 +152,6 @@ public class Main extends Application {
 
 	}
 	private void drawUI() {
-		// go through each element in game ui and update ui accordingly
 		for (UiTextElement textElement : gameUi.getUiTextElements()) {
 			Text text;
 			if (!elementTextMap.containsKey(textElement)) {
@@ -178,24 +170,5 @@ public class Main extends Application {
 			text.setX(textElement.getX());
 			text.setY(textElement.getY());
 		}
-	}
-
-	private Collection<? extends IGamePluginService> getPluginServices() {
-		return ServiceLoader.load(IGamePluginService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-	}
-
-
-	private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
-		return ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get)
-				.collect(toList());
-	}
-
-	private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
-		return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get)
-				.collect(toList());
-	}
-	private Collection<? extends IUIProcessingService> getIUIProcessingServices() {
-		return ServiceLoader.load(IUIProcessingService.class).stream().map(ServiceLoader.Provider::get)
-				.collect(toList());
 	}
 }

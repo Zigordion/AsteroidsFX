@@ -3,6 +3,7 @@ package dk.sdu.mmmi.cbse.collision;
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.Interactable;
+import dk.sdu.mmmi.cbse.common.util.EventBroker;
 
 public class CircularCollisionController implements IPostEntityProcessingService {
 
@@ -21,7 +22,6 @@ public class CircularCollisionController implements IPostEntityProcessingService
 					continue;
 				}
 				if (entity.getClass() != other.getClass()) {
-					// Check collision
 					double[] otherCoords = other.getPolygonCoordinates();
 					double otherRadius = 0;
 					for (double coord : otherCoords) {
@@ -32,7 +32,6 @@ public class CircularCollisionController implements IPostEntityProcessingService
 					double deltaY = entity.getY() - other.getY();
 					double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 					if (distance < entityRadius + otherRadius) {
-						// collided
 						Event event = new Event(EventType.COLLISION, world, gameData, entity, other);
 						eventBroker.triggerEvent(event);
 						continue outerLoop;

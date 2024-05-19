@@ -2,6 +2,7 @@ package dk.sdu.mmmi.cbse.enemysystem;
 
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.util.EventBroker;
 import dk.sdu.mmmi.cbse.enemy.Enemy;
 import java.util.Random;
 

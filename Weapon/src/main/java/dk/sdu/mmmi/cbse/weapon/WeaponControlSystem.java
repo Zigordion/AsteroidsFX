@@ -7,6 +7,9 @@ import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
+import dk.sdu.mmmi.cbse.common.util.EventBroker;
+import dk.sdu.mmmi.commonweapon.CommonWeapon;
+import dk.sdu.mmmi.commonweapon.WeaponSPI;
 import java.util.*;
 
 public class WeaponControlSystem implements IGamePluginService, IEntityProcessingService, IEventListener {
@@ -25,19 +28,11 @@ public class WeaponControlSystem implements IGamePluginService, IEntityProcessin
 		});
 	}
 
-	private Collection<? extends BulletSPI> getBulletSPIs() {
-		return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-	}
-
-	public void setCurrentWeapon(Entity shooter) {
+	public void setRandomWeapon(Entity shooter) {
 		List<? extends WeaponSPI> weaponSPIs = getWeaponSPI();
 		Random random = new Random();
 		weaponMap.remove(shooter.getID());
 		weaponMap.put(shooter.getID(), weaponSPIs.get(random.nextInt(0, weaponSPIs.size())).createWeapon());
-	}
-
-	private List<? extends WeaponSPI> getWeaponSPI() {
-		return ServiceLoader.load(WeaponSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
 	}
 
 	@Override
@@ -49,8 +44,12 @@ public class WeaponControlSystem implements IGamePluginService, IEntityProcessin
 		}
 		if (event.getEventType().equals(EventType.WEAPON_PICKUP)) {
 			for (Entity entity : event.getEntities()) {
-				setCurrentWeapon(entity);
+				setRandomWeapon(entity);
 			}
+		}
+		if (event.getEventType().equals(EventType.PLAYER_HIT)) {
+			CommonWeapon commonWeapon = new CommonWeapon();
+			weaponMap.replace(event.getEntities()[0].getID(), commonWeapon);
 		}
 	}
 
@@ -62,11 +61,19 @@ public class WeaponControlSystem implements IGamePluginService, IEntityProcessin
 
 	@Override
 	public void start(GameData gameData, World world) {
-		EventBroker.getInstance().addListener(this, EventType.SHOOT, EventType.WEAPON_PICKUP);
+		EventBroker.getInstance().addListener(this, EventType.SHOOT, EventType.WEAPON_PICKUP, EventType.PLAYER_HIT);
 	}
 
 	@Override
 	public void stop(GameData gameData, World world) {
-		EventBroker.getInstance().removeListener(this, EventType.WEAPON_PICKUP, EventType.SHOOT);
+		EventBroker.getInstance().removeListener(this, EventType.WEAPON_PICKUP, EventType.SHOOT, EventType.PLAYER_HIT);
+	}
+
+	private List<? extends WeaponSPI> getWeaponSPI() {
+		return ServiceLoader.load(WeaponSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
+	}
+
+	private Collection<? extends BulletSPI> getBulletSPIs() {
+		return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
 	}
 }

@@ -4,6 +4,7 @@ import dk.sdu.mmmi.asteroid.Asteroid;
 import dk.sdu.mmmi.cbse.common.bullet.Bullet;
 import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEventListener;
+import dk.sdu.mmmi.cbse.common.util.EventBroker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

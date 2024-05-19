@@ -3,7 +3,6 @@ import dk.sdu.mmmi.pickup.PickupSPI;
 
 module HealthPickup {
 	requires Common;
-	requires PickupGenerator;
 	requires CommonPlayer;
 	requires CommonPickup;
 	provides PickupSPI with HealthPickupService;
