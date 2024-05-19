@@ -8,8 +8,12 @@ public interface IEntityProcessingService {
 	/**
 	 * @param gameData
 	 * @param world
-	 * @precondition: Service is provided to service locator
-	 * @postcondition process is run each frame
+	 * @precondition: gameData != null <br>
+	 * world != null <br>
+	 * world contains all entities that need to be affected by this process
+	 * @postcondition deltatime is updated according to the difference in time since last frame.<br>
+	 * All entities that the provider handles has been added or removed to world<br>
+	 * All entities has been updated
 	 */
 	void process(double deltaTime, GameData gameData, World world);
 }

@@ -9,9 +9,11 @@ import dk.sdu.mmmi.cbse.common.data.World;
  */
 public interface IPostEntityProcessingService {
 	/**
-	 * @precondition entity processing has been run, and this service is provided to
-	 *               the service locator
-	 * @postcondition runs the process after each entity process is run
+	 * @precondition gameData != null <br>
+	 * world != null <br>
+	 * The IEntityProcessingService process method has been called before this method. <br>
+	 * world contains all entities that need to be affected by this process
+	 * @postcondition All entities that the provider handles has been added or removed to world All entities has been updated
 	 * @param gameData
 	 * @param world
 	 */

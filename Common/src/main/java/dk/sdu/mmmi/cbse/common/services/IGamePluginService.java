@@ -6,15 +6,19 @@ import dk.sdu.mmmi.cbse.common.data.World;
 public interface IGamePluginService {
 
 	/**
-	 * @precondition Service provides implementation to service locator
-	 * @postcondition runs code at start of game
+	 * @precondition gameData != null <br>
+	 * world != null <br>
+	 * world contains all entities that need to be affected by this process
+	 * @postcondition All entities that the provider handles has been added to world
 	 * @param gameData
 	 * @param world
 	 */
 	void start(GameData gameData, World world);
 	/**
-	 * @precondition Service provides implementation to service locator
-	 * @postcondition runs code at end of game
+	 * @precondition gameData != null <br>
+	 * 	 * world != null <br>
+	 * 	 * world contains all entities that need to be affected by this process
+	 * @postcondition All entities that the provider handles has been removed from world
 	 * @param gameData
 	 * @param world
 	 */
